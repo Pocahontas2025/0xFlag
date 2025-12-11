@@ -537,7 +537,7 @@ progress {
 
 .display-5 {
   font-size: calc(1.425rem + 2.1vw);
-  font-weight: 300;
+  font-weight:300;
   line-height: 1.2;
 }
 @media (min-width: 1200px) {
@@ -548,7 +548,7 @@ progress {
 
 .display-6 {
   font-size: calc(1.375rem + 1.5vw);
-  font-weight: 300;
+  font-weight:300;
   line-height: 1.2;
 }
 @media (min-width: 1200px) {
@@ -2844,20 +2844,20 @@ textarea.form-control-lg {
 }
 
 .btn-primary {
-  --bs-btn-color: #fff;
-  --bs-btn-bg: #0d6efd;
-  --bs-btn-border-color: #0d6efd;
-  --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #0b5ed7;
-  --bs-btn-hover-border-color: #0a58ca;
+  --bs-btn-color: #050423;
+  --bs-btn-bg: #59F894;
+  --bs-btn-border-color: #59F894;
+  --bs-btn-hover-color: #050423;
+  --bs-btn-hover-bg: #59F894;
+  --bs-btn-hover-border-color: #59F894;
   --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #0a58ca;
-  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-active-bg: #59F894;
+  --bs-btn-active-border-color: #59F894;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #fff;
-  --bs-btn-disabled-bg: #0d6efd;
-  --bs-btn-disabled-border-color: #0d6efd;
+  --bs-btn-disabled-bg: #59F894;
+  --bs-btn-disabled-border-color: #59F894;
 }
 
 .btn-secondary {
@@ -5858,6 +5858,10 @@ textarea.form-control-lg {
   }
 }
 
+.text-green {
+  color: #59F894 !important;
+}
+
 .carousel-control-prev,
 .carousel-control-next {
   position: absolute;
@@ -7159,6 +7163,7 @@ textarea.form-control-lg {
   border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
 }
 
+
 .border-bottom-0 {
   border-bottom: 0 !important;
 }
@@ -8126,13 +8131,22 @@ textarea.form-control-lg {
 
 .bg-primary {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #A432E2 !important;
 }
 
 .bg-secondary {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity)) !important;
 }
+
+.bg-custom {
+  background-color: #0A0928 !important;
+}
+
+.separator-lila {
+  border-bottom: 3px solid #A432E2;
+}
+
 
 .bg-success {
   --bs-bg-opacity: 1;
@@ -8161,7 +8175,7 @@ textarea.form-control-lg {
 
 .bg-dark {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #050423 !important;
 }
 
 .bg-black {
