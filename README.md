@@ -111,5 +111,7 @@ Actualmente en fase **Alpha**. Próximas funcionalidades para la **Release Final
   * Módulo de Reverse Shells.
   * Asistente de tratamiento de TTY.
   * Persistencia de configuración de usuario.
+  * Servidor localhost.
+  * Hosting web a la IP de la maquina, para conexiones remotas.
 
 ---
