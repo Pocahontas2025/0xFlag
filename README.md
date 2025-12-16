@@ -10,7 +10,7 @@
 
 **0xFlag** es una herramienta web diseñada para facilitar la vida a los jugadores de **Capture The Flag (CTF)** y estudiantes de ciberseguridad. 
 
-En competiciones o auditorías, recordar la sintaxis exacta de cada herramienta (Nmap, Gobuster, TTY upgrades, etc.) añade una carga cognitiva innecesaria. Este proyecto soluciona ese problema ofreciendo una interfaz gráfica sencilla que **genera automáticamente los comandos complejos** basándose en los parámetros que el usuario necesita, permitiéndole centrarse en la estrategia y no en la memorización.
+En competiciones o auditorías, recordar la sintaxis exacta de cada herramienta (Nmap, Gobuster, TTY upgrades, etc.) añade una carga cognitiva innecesaria. Este proyecto, soluciona ese problema ofreciendo una interfaz gráfica sencilla que **genera automáticamente los comandos complejos** basándose en los parámetros que el usuario necesita, permitiéndole centrarse en la estrategia y no en la memorización.
 
 ### 👥 Equipo de Desarrollo
 * Xavier Conde
@@ -46,7 +46,7 @@ Sigue estos pasos para desplegar la herramienta en tu entorno local:
 
 ### 1. Clonar el repositorio
 ```bash
-git clone <0xFlag>
+git clone https://github.com/Pocahontas2025/0xFlag
 cd 0XFlag
 ```
 
@@ -71,7 +71,7 @@ python main.py
 Abre tu navegador web favorito y visita:
 
 ```
-[http://127.0.0.1:5000](http://127.0.0.1:5000)
+http://127.0.0.1:5000
 ```
 
 ---
