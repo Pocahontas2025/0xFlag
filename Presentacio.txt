@@ -1,0 +1,22 @@
+1 Introduccio project - 1min
+2 Motivació I descripció projecte - 1min
+3 Arquitectura SCRUM - 2min
+	Epiques
+	Com us heu planificat els sprints
+	Updates Durant el projecte
+4 Demotecnica - 4min
+	Resultat de la release
+	Mostra practica de funcionalitats
+	Usuari pot fer X que internament passa Y i es mostra el resultat Z
+	Entorn -> Trigger -> Resultat (Backend o Frontend)
+5 GitFlow - 1min
+	Branches
+	Problemes GitHub o Jira (si n'hi han hagut)
+6 Limitacions i Scope final (Read.me) - 1min
+	Restriccions del projecte
+7 Treballs Futurs - 1min
+	Ex. Si tinguessim 3 sprints mes, que fariem?
+8 Crítica - 1min
+	A l'activitat final
+
+	

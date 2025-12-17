@@ -1,0 +1,5 @@
+Background -- #050423
+Background + claro -- #0A0928
+Verde -- #59F894
+Azul -- #21D8F8
+Lila -- #A432E2
