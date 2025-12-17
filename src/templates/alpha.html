@@ -84,25 +84,38 @@
                     
                     <div class="card bg-secondary text-white border-0 shadow">
                         <div class="card-body p-4">
-                            
+                             
                             <form action="/generate" method="POST">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Target IP:</label>
-                                    <input type="text" class="form-control" name="target_ip" placeholder="Ej: 10.10.10.55" required>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <label class="form-label fw-bold">Scan Type:</label>
-                                    <select class="form-select" name="scan_type">
-                                        <option value="fast">Rápido (-F)</option>
-                                        <option value="full">Completo (-p- -sV)</option>
-                                        <option value="udp">Básico UDP</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg">GENERAR COMANDO</button>
-                                </div>
+                            
+                              <div class="mb-3">
+                                <label class="form-label fw-bold">Target IP:</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  name="target_ip"
+                                  pattern="^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$"
+                                  placeholder="Ej: 10.10.10.55"
+                                  title="Ingresa una IP válida (ej: 192.168.1.1)"
+                                  required
+                                >
+                              </div>
+                            
+                              <div class="mb-4">
+                                <label class="form-label fw-bold">Scan Type:</label>
+                                <select class="form-select" name="scan_type" required>
+                                  <option value="">Selecciona una opción</option>
+                                  <option value="fast">Rápido (-F)</option>
+                                  <option value="full">Completo (-p- -sV)</option>
+                                  <option value="udp">Básico UDP</option>
+                                </select>
+                              </div>
+                            
+                              <div class="d-grid">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                  GENERAR COMANDO
+                                </button>
+                              </div>
+                            
                             </form>
 
                         </div>

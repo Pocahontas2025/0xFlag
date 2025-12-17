@@ -7969,6 +7969,7 @@ textarea.form-control-lg {
 
 .fw-bolder {
   font-weight: bolder !important;
+  color: var(--bs-gray-400) !important;
 }
 
 .lh-1 {
@@ -8095,7 +8096,7 @@ textarea.form-control-lg {
 
 .text-muted {
   --bs-text-opacity: 1;
-  color: #6c757d !important;
+  color: var(--bs-gray-300) !important;
 }
 
 .text-black-50 {
@@ -8105,7 +8106,7 @@ textarea.form-control-lg {
 
 .text-white-50 {
   --bs-text-opacity: 1;
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: var(--bs-gray-300) !important;
 }
 
 .text-reset {
