@@ -1,7 +1,9 @@
 # WARNING - se tiene que instalar con pip (está especificado en el README)
 from flask import Flask, render_template, request, url_for
-from src import ctf_logic, logger
+from src import logger
+from utils import get_nics
 import os
+import utils
 
 # Definimos que busque templates en src/templates y estáticos en src/static
 app = Flask(__name__, template_folder='src/templates', static_folder='src/static')
@@ -23,7 +25,7 @@ def generate():
     scan_type = request.form.get('scan_type')
     
     # Lógica y Logs
-    command = ctf_logic.generate_nmap_command(ip, scan_type)
+    command = utils.generate_nmap_command(ip, scan_type)
     logger.save_log(command)
     
     # Al terminar, volvemos a mostrar alpha.html con el resultado
@@ -32,5 +34,16 @@ def generate():
 if __name__ == '__main__':
     if not os.path.exists('logs'):
         os.makedirs('logs')
-    print(" Iniciando 0xFlag Alpha en http://127.0.0.1:5000")
-    app.run(debug=True, port=5000)
+        
+    nics = get_nics()
+    
+    print("\nInterficies de red disponibles:\n")
+    for i ,(iface, ip) in enumerate(nics.items(),start=1):
+        print(f"{i}. {iface} - {ip}")
+    choice = int(input("\nSeleccione numero de interficie: ")) - 1
+    iface, ip_interface = list(nics.items())[choice]
+    
+    set_port = int(input("Selecione un puerto (0-1023 pueden requerir de privilegios ROOT):\n"))
+    print(f"\nIniciando 0xFlag Alpha en http://{ip_interface}:{set_port}")
+    app.run(debug=False, use_reloader=False, host=ip_interface, port=set_port)
+
