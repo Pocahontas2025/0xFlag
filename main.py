@@ -47,3 +47,5 @@ if __name__ == '__main__':
     print(f"\nIniciando 0xFlag Alpha en http://{ip_interface}:{set_port}")
     app.run(debug=False, use_reloader=False, host=ip_interface, port=set_port)
 
+
+
