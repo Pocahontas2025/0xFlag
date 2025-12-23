@@ -5,6 +5,8 @@ from utils import get_nics,generate_nmap_command
 from src.config_manager import save_configuration, load_configuration
 import os
 import pickle
+from utils import build_discovery_command
+
 
 def load_tty_procedures():
     with open("tty_procedures.bin", "rb") as f:
@@ -33,30 +35,62 @@ def nmap():
 # Discovery UI
 @app.route('/discovery')
 def discovery():
-    return render_template('discovery.html')
+    return render_template("discovery.html", current={"tool": "gobuster"})
 
 
 # Procesa el formulario de discovery
-@app.route('/generate_discovery', methods=['POST'])
+
+@app.route("/generate_discovery", methods=["POST"])
 def generate_discovery():
-    target_url = request.form.get('target_url', '').strip()
-    wordlist   = request.form.get('wordlist', '').strip()
-    extensions = request.form.get('extensions', '').strip()
+    form = request.form
 
-    if not target_url or not wordlist:
-        return render_template('discovery.html', message="Faltan campos obligatorios.")
+    target_url = (form.get("target_url") or "").strip()
+    wordlist   = (form.get("wordlist") or "").strip()
+    extensions = (form.get("extensions") or "").strip()
+    tool       = (form.get("tool") or "gobuster").strip()
 
+    # Para no perder datos en errores
     current = {
         "target_url": target_url,
         "wordlist": wordlist,
-        "extensions": extensions or "(sin extensiones)"
+        "extensions": extensions,
+        "tool": tool,
     }
 
+    if not target_url or not wordlist:
+        return render_template(
+            "discovery.html",
+            message="URL y wordlist son obligatorios.",
+            current=current
+        )
+
+    try:
+        # Generar comando (NO ejecutar)
+        command = build_discovery_command(
+            tool,
+            target_url,
+            wordlist,
+            extensions
+        )
+
+        # LOG exactamente igual que Nmap
+        logger.save_log(command)
+
+    except ValueError as e:
+        return render_template(
+            "discovery.html",
+            message=f"Entrada inválida: {e}",
+            current=current
+        )
+
     return render_template(
-        'discovery.html',
-        message="Datos recibidos correctamente.",
-        current=current
+        "discovery.html",
+        message="Comando generado correctamente.",
+        current=current,
+        command=command
     )
+
+
 
 
 # -----------------------------------------------------------------------
