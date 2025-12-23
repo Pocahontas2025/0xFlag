@@ -30,7 +30,36 @@ def nmap():
     return render_template('nmap.html')
 
 # -----------------------------------------------------------------------
+# Discovery UI
+@app.route('/discovery')
+def discovery():
+    return render_template('discovery.html')
 
+
+# Procesa el formulario de discovery
+@app.route('/generate_discovery', methods=['POST'])
+def generate_discovery():
+    target_url = request.form.get('target_url', '').strip()
+    wordlist   = request.form.get('wordlist', '').strip()
+    extensions = request.form.get('extensions', '').strip()
+
+    if not target_url or not wordlist:
+        return render_template('discovery.html', message="Faltan campos obligatorios.")
+
+    current = {
+        "target_url": target_url,
+        "wordlist": wordlist,
+        "extensions": extensions or "(sin extensiones)"
+    }
+
+    return render_template(
+        'discovery.html',
+        message="Datos recibidos correctamente.",
+        current=current
+    )
+
+
+# -----------------------------------------------------------------------
 @app.route("/tty", methods=["GET", "POST"])
 def tty_assist():
     selected = None
@@ -85,6 +114,8 @@ def settings():
 
     return render_template('settings.html', message=message, current_conf=current_conf)
 
+
+
 # -----------------------------------------------------------------------
 if __name__ == '__main__':
     if not os.path.exists('logs'):
@@ -101,3 +132,4 @@ if __name__ == '__main__':
     set_port = int(input("Selecione un puerto (0-1023 pueden requerir de privilegios ROOT):\n"))
     print(f"\nIniciando 0xFlag en http://{ip_interface}:{set_port}")
     app.run(debug=False, use_reloader=False, host=ip_interface, port=set_port)
+
