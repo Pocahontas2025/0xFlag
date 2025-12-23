@@ -1,1 +1,14 @@
 
+[2025-12-23 09:56:43] CMD GENERADO: nmap -sU --top-ports 100 8.8.8.8
+[2025-12-23 09:59:35] CMD GENERADO: nmap -sU --top-ports 100 8.8.8.8
+[2025-12-23 10:00:08] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:02:47] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:06:01] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:06:03] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:06:25] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:06:47] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:07:27] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:07:31] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:08:57] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:09:11] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
+[2025-12-23 10:15:53] CMD GENERADO: nmap -F 55.7.7.7 -oN scan_fast.txt
