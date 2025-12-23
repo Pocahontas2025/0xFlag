@@ -1,9 +1,15 @@
 # WARNING - se tiene que instalar con pip (está especificado en el README)
 from flask import Flask, render_template, request, url_for
 from src import logger
-from utils import get_nics
+from utils import get_nics,generate_nmap_command
 import os
-import utils
+import pickle
+
+def load_tty_procedures():
+    with open("tty_procedures.bin", "rb") as f:
+        return pickle.load(f)
+
+TTY_PROCEDURES = load_tty_procedures()
 
 # Definimos que busque templates en src/templates y estáticos en src/static
 app = Flask(__name__, template_folder='src/templates', static_folder='src/static')
@@ -18,6 +24,22 @@ def home():
 def alpha_tool():
     return render_template('alpha.html')
 
+@app.route("/tty", methods=["GET", "POST"])
+def tty_assist():
+    selected = None
+    procedure = None
+
+    if request.method == "POST":
+        selected = request.form.get("procedure")
+        procedure = TTY_PROCEDURES.get(selected)
+
+    return render_template(
+        "tty.html",
+        procedures=TTY_PROCEDURES,
+        selected=selected,
+        procedure=procedure
+    )
+
 # Procesa el formulario de la Alpha
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -25,7 +47,7 @@ def generate():
     scan_type = request.form.get('scan_type')
     
     # Lógica y Logs
-    command = utils.generate_nmap_command(ip, scan_type)
+    command = generate_nmap_command(ip, scan_type)
     logger.save_log(command)
     
     # Al terminar, volvemos a mostrar alpha.html con el resultado

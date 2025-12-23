@@ -12,3 +12,4 @@
 [2025-12-23 10:08:57] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
 [2025-12-23 10:09:11] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
 [2025-12-23 10:15:53] CMD GENERADO: nmap -F 55.7.7.7 -oN scan_fast.txt
+[2025-12-23 10:35:01] CMD GENERADO: nmap -F 8.8.8.8 -oN scan_fast.txt
