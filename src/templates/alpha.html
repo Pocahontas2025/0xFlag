@@ -1,95 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <title>0xFlag - Herramienta Alpha</title>
-        
-        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
-        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
-        
-        <style>
-            .terminal-output {
-                background-color: #000;
-                color: #00ff00;
-                font-family: 'Courier New', Courier, monospace;
-                padding: 15px;
-                border-radius: 5px;
-                border: 1px solid #00ff00;
-                margin-top: 20px;
-            }
+{% extends "base.html" %}
 
-            .output-header {
-                display: flex;
-                justify-content: space-between; /* texto izquierda, botón al fondo derecha */
-                align-items: center;
-                padding-right: 4px; /* espacio ligero al borde */
-            }
+{% block title %}0xFlag - NMAP{% endblock %}
 
+{% block extra_css %}
+<style>
+    .terminal-output {
+        background-color: #0000;
+        color: #00ff00;
+        font-family: 'Courier New', Courier, monospace;
+        padding: 15px;
+        border-radius: 5px;
+        border: 1px solid #00ff00;
+        margin-top: 20px;
+    }
 
-            #btn-copiar {
-                background-color: #00ff00;
-                color: #000;
-                border: none;
-                padding: 4px 8px;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 14px;
-                transition: background-color 0.2s ease, color 0.2s ease;
-            }
+    .output-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 4px;
+    }
 
-            #btn-copiar:hover {
-                background-color: #00cc00;         
-            }
+    #btn-copiar {
+        background-color: #00ff00;
+        color: #000;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s ease;
+    }
 
-            #btn-copiar.copiado {
-               background-color: #00ccff; /* color feedback */
-                color: #000;
-            }
+    #btn-copiar:hover {
+        background-color: #00cc00;
+    }
 
+    #btn-copiar.copiado {
+        background-color: #00ccff;
+    }
+</style>
+{% endblock %}
 
+{% block content %}
 
+<div class="container px-5 my-5">
+    <div class="text-center text-white mb-5">
+        <h1 class="fw-bolder">Generador Nmap (Alpha)</h1>
+        <p class="lead text-white-50">Introduce los datos para generar el comando.</p>
+    </div>
 
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
 
-                        
-        </style>
-    </head>
-    
-    <body class="d-flex flex-column min-vh-100 bg-dark">
-        
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
-            <div class="container px-5">
-                <img src="{{ url_for('static', filename='assets/0xFlag_Logo.png') }}" class="m-2" style="width: 50px; height:auto;" alt="Logo">
-                <a class="navbar-brand" href="/">0xFlag</a>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/alpha">Herramienta Alpha</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        
-        <div class="container px-5 my-5">
-            <div class="text-center text-white mb-5">
-                <h1 class="fw-bolder">Generador Nmap (Alpha)</h1>
-                <p class="lead text-white-50">Introduce los datos para generar el comando.</p>
-            </div>
+            <div class="card bg-secondary text-white border-0 shadow">
+                <div class="card-body p-4">
 
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    
-                    <div class="card bg-secondary text-white border-0 shadow">
-                        <div class="card-body p-4">
-                             
-                            <form action="/generate" method="POST">
-                            
-                              <div class="mb-3">
-                                <label class="form-label fw-bold">Target IP:</label>
-                                <input
+                    <form action="/generate" method="POST">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Target IP:</label>
+                            <input
                                   type="text"
                                   class="form-control"
                                   name="target_ip"
@@ -98,74 +69,88 @@
                                   title="Ingresa una IP válida (ej: 192.168.1.1)"
                                   required
                                 >
-                              </div>
-                            
-                              <div class="mb-4">
-                                <label class="form-label fw-bold">Scan Type:</label>
-                                <select class="form-select" name="scan_type" required>
-                                  <option value="">Selecciona una opción</option>
-                                  <option value="fast">Rápido (-F)</option>
-                                  <option value="full">Completo (-p- -sV)</option>
-                                  <option value="udp">Básico UDP</option>
-                                </select>
-                              </div>
-                            
-                              <div class="d-grid">
-                                <button type="submit" class="btn btn-success btn-lg">
-                                  GENERAR COMANDO
-                                </button>
-                              </div>
-                            
-                            </form>
-
                         </div>
-                    </div>
 
-                    {% if result %}
-                    <div class="terminal-output">
-                        <div class="output-header">
-                            <h5 class="mb-0">> Output:</h5>
-                            <button id="btn-copiar">
-                                <i class="bi bi-clipboard"></i> Copiar
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Scan Type:</label>
+                            <select class="form-select" name="scan_type" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="fast">Rápido (-F)</option>
+                                <option value="full">Completo (-p- -sV)</option>
+                                <option value="udp">Básico UDP</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                GENERAR COMANDO
                             </button>
-
                         </div>
-                        <hr class="border-success mt-1 mb-2">
-                        
-                        <p id="output-text" class="mb-0">{{ result }}</p>
-                    </div>
-                    <div class="mt-2 text-center text-muted small">
-                        <i class="bi bi-check-circle"></i> Log guardado en <code>logs/history.txt</code>
-                    </div>
-                    {% endif %}
+
+                    </form>
 
                 </div>
             </div>
+
+            {% if result %}
+            <div class="terminal-output">
+                <div class="output-header">
+                    <h5 class="mb-0">&gt; Output:</h5>
+                    <button id="btn-copiar" type="button">
+                        <i class="bi bi-clipboard"></i> Copiar
+                    </button>
+                </div>
+
+                <hr class="border-success mt-1 mb-2">
+                <p id="output-text" class="mb-0">{{ result }}</p>
+            </div>
+            {% endif %}
+
         </div>
+    </div>
+</div>
 
-        <footer class="py-3 bg-dark mt-auto border-top border-secondary">
-            <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; 0xFlag 2025</p></div>
-        </footer>
+{% endblock %}
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        
-    <script>
-        const btn = document.getElementById("btn-copiar");
-        const output = document.getElementById("output-text");
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("btn-copiar");
+    const output = document.getElementById("output-text");
 
-        btn.addEventListener("click", () => {
-            navigator.clipboard.writeText(output.innerText);
+    if (!btn || !output) return;
 
-            // feedback visual
-            btn.classList.add("copiado");
-            btn.innerHTML = '<i class="bi bi-check-lg"></i> Copiado';
+    btn.addEventListener("click", () => {
+        const textToCopy = output.innerText;
 
-            setTimeout(() => {
-                btn.classList.remove("copiado");
-                btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
-            }, 1500);
-        });
-    </script>
+        // Fallback for all browsers/sites
+        const textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // Avoid scrolling to bottom
+        textArea.style.position = "fixed";
+        textArea.style.top = "-9999px";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
 
-    </body>
-</html>
+        try {
+            const successful = document.execCommand("copy");
+            if (!successful) throw new Error("Copy command failed");
+        } catch (err) {
+            alert("No se pudo copiar al portapapeles. Copia manualmente.");
+        }
+
+        document.body.removeChild(textArea);
+
+        // Show visual feedback
+        btn.classList.add("copiado");
+        btn.innerHTML = '<i class="bi bi-check-lg"></i> Copiado';
+        setTimeout(() => {
+            btn.classList.remove("copiado");
+            btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
+        }, 1500);
+    });
+});
+</script>
+{% endblock %}
