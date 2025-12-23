@@ -86,6 +86,16 @@ def settings():
     return render_template('settings.html', message=message, current_conf=current_conf)
 
 # -----------------------------------------------------------------------
+
+# Espacio de historial de comandos usados
+
+@app.route('/history')
+def history():
+    # Obtenemos la lista de logs parseada
+    logs = logger.get_logs()
+    return render_template('history.html', logs=logs)
+
+# -----------------------------------------------------------------------
 if __name__ == '__main__':
     if not os.path.exists('logs'):
         os.makedirs('logs')

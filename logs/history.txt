@@ -1,1 +1,2 @@
 [2025-12-23 12:44:58] CMD GENERADO: nmap -F 192.168.10.10 -oN scan_fast.txt
+[2025-12-23 14:10:09] CMD GENERADO: nmap -sU --top-ports 100 127.0.0.1

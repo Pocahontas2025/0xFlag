@@ -39,9 +39,10 @@
                         <a class="nav-link {% if request.path == '/tty' %}active{% endif %}" href="/tty">TTY</a>
                     </li>
                     <li class="nav-item border-start border-secondary ms-2 ps-2">
-                        <a class="nav-link {% if request.path == '/settings' %}active{% endif %}" href="/settings">
-                            <i class="bi bi-gear-fill"></i> Config
-                        </a>
+                        <a class="nav-link {% if request.path == '/history' %}active{% endif %}" href="/history">Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/settings' %}active{% endif %}" href="/settings"><i class="bi bi-gear-fill"></i> Config</a>
                     </li>
                 </ul>
             </div>
