@@ -1,5 +1,5 @@
 # WARNING - se tiene que instalar con pip (está especificado en el README)
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, redirect
 from src import logger
 from utils import get_nics,generate_nmap_command
 from src.config_manager import save_configuration, load_configuration
@@ -149,6 +149,22 @@ def settings():
     return render_template('settings.html', message=message, current_conf=current_conf)
 
 
+
+# -----------------------------------------------------------------------
+
+# Espacio de historial de comandos usados
+
+@app.route('/history')
+def history():
+    # Obtenemos la lista de logs parseada
+    logs = logger.get_logs()
+    return render_template('history.html', logs=logs)
+
+# limpiar historial
+@app.route('/clear_history', methods=['POST'])
+def clear_history_route():
+    logger.clear_logs()
+    return redirect(url_for('history'))
 
 # -----------------------------------------------------------------------
 if __name__ == '__main__':
