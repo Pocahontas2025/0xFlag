@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}0xFlag - Discovery{% endblock %}
+
+{% block content %}
+<div class="container px-5 my-5">
+  <div class="text-center text-white mb-5">
+    <h1 class="fw-bolder">Discovery (Directorios)</h1>
+    <p class="lead text-white-50">Formulario: URL + diccionario + extensiones.</p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card bg-secondary text-white border-0 shadow">
+        <div class="card-body p-4">
+
+          <form action="/generate_discovery" method="POST">
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">URL objetivo:</label>
+              <input type="text" class="form-control" name="target_url"
+                     placeholder="Ej: http://10.10.10.55 o 10.10.10.55" required>
+              <div class="form-text text-white-50">Si no pone esquema, se asume http://</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Diccionario (wordlist):</label>
+              <input type="text" class="form-control" name="wordlist"
+                     placeholder="Ej: /usr/share/wordlists/dirb/common.txt" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Extensiones (opcional):</label>
+              <input type="text" class="form-control" name="extensions"
+                     placeholder=".php, .txt, .bak">
+              <div class="form-text text-white-50">Separadas por coma. Con o sin punto.</div>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-success btn-lg">GUARDAR DATOS</button>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+      {% if message %}
+        <div class="alert alert-info mt-3">{{ message }}</div>
+      {% endif %}
+
+      {% if current %}
+        <div class="alert alert-secondary mt-3">
+          <div><b>URL:</b> {{ current.target_url }}</div>
+          <div><b>Wordlist:</b> {{ current.wordlist }}</div>
+          <div><b>Extensiones:</b> {{ current.extensions }}</div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}
