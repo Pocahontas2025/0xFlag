@@ -60,3 +60,10 @@ def get_logs():
     except Exception as e:
         print(f"[!] Error leyendo logs: {e}")
         return []
+
+# función para limpiar el archivo de logs de comandos
+def clear_logs():
+    file_path = os.path.join(LOG_DIR, LOG_FILE)
+    if os.path.exists(file_path):
+        with open(file_path, "w", encoding = "utf-8") as f:
+            pass
