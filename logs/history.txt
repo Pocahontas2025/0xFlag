@@ -1,1 +1,0 @@
-[2025-12-23 12:44:58] CMD GENERADO: nmap -F 192.168.10.10 -oN scan_fast.txt
