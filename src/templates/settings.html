@@ -17,7 +17,13 @@
                     <form action="/settings" method="POST">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Tu IP (Attacker IP / LHOST):</label>
-                            <input type="text" class="form-control" name="attacker_ip" placeholder="Ej: 10.10.14.5" value="{{ current_conf.attacker_ip if current_conf else '' }}">
+                            <input type="text" class="form-control" name="attacker_ip" value="{{ current_conf.attacker_ip if current_conf else '' }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">IP Objetivo (Target IP / RHOST):</label>
+                            <input type="text" class="form-control" name="target_ip" placeholder="La IP de la máquina que estás atacando"
+                                   value="{{ current_conf.target_ip if current_conf else '' }}">
                         </div>
                         
                         <div class="mb-4">

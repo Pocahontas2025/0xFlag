@@ -29,7 +29,8 @@ def home():
 # Herramienta funcional nmap
 @app.route('/nmap')
 def nmap():
-    return render_template('nmap.html')
+    current_conf = load_configuration()
+    return render_template('nmap.html', current_conf=current_conf)
 
 # -----------------------------------------------------------------------
 # Discovery UI
@@ -152,19 +153,19 @@ def settings():
     message = None
 
     if request.method == 'POST':
-        # 1. Obtener datos del formulario
+        # obtener datos del formulario
         ip = request.form.get('attacker_ip')
         interface = request.form.get('interface')
+        target = request.form.get('target_ip')
 
-        # 2. Usar nuestra función modular para guardar en BINARIO
-        if save_configuration(ip, interface):
-            message = "¡Configuración guardada correctamente! (fichero binario actualizado)"
+        # usar nuestra función modular para guardar en BINARIO
+        if save_configuration(ip, interface, target):
+            message = "¡Configuración guardada correctamente!"
         else:
             message = "Error al guardar la configuración."
 
-    # 3. Cargamos la config actual para mostrarla en los inputs (Persistence UI)
+    # cargamos la config actual para mostrarla en los inputs
     current_conf = load_configuration()
-
     return render_template('settings.html', message=message, current_conf=current_conf)
 
 
@@ -186,19 +187,64 @@ def clear_history_route():
     return redirect(url_for('history'))
 
 # -----------------------------------------------------------------------
+
 if __name__ == '__main__':
+    # crear carpeta de logs si no existe
     if not os.path.exists('logs'):
         os.makedirs('logs')
         
+    # obtener interfaces actuales
     nics = get_nics()
-    
-    print("\nInterficies de red disponibles:\n")
-    for i ,(iface, ip) in enumerate(nics.items(),start=1):
-        print(f"{i}. {iface} - {ip}")
-    choice = int(input("\nSeleccione numero de interficie: ")) - 1
-    iface, ip_interface = list(nics.items())[choice]
-    
-    set_port = int(input("Selecione un puerto (0-1023 pueden requerir de privilegios ROOT):\n"))
-    print(f"\nIniciando 0xFlag en http://{ip_interface}:{set_port}")
-    app.run(debug=False, use_reloader=False, host=ip_interface, port=set_port)
+    selected_ip = None
+    selected_iface_name = None
 
+    # cargamos configuración por si se definió previamente
+    saved_conf = load_configuration()
+
+    # si hay config guardada y esa interfaz existe en este momento:
+    if saved_conf and saved_conf['interface'] in nics:
+        pref_iface = saved_conf['interface']
+        pref_ip = nics[pref_iface]
+        
+        print(f"\n[★] Preferencia detectada: {pref_iface} ({pref_ip})")
+        use_pref = input("¿Quieres usarla? [S/n]: ").lower().strip()
+        
+        # si pulsa alguna de las siguientes confirmaciones, usamos la guardada
+        if use_pref in ['', 's', 'si', 'y', 'yes']:
+            selected_iface_name = pref_iface
+            selected_ip = pref_ip
+
+    # si no eligió interfaz automática
+    if not selected_ip:
+        print("\n--- Interfaces Disponibles ---")
+        # convertimos a lista para poder indexar por número
+        nic_list = list(nics.items()) 
+        
+        for i, (iface, ip) in enumerate(nic_list, start=1):
+            print(f"{i}. {iface:<10} - {ip}")
+            
+        while True:
+            try:
+                choice = input("\nSeleccione número de interfaz: ")
+                idx = int(choice) - 1
+                if 0 <= idx < len(nic_list):
+                    selected_iface_name, selected_ip = nic_list[idx]
+                    break
+                else:
+                    print("⚠ Número fuera de rango.")
+            except ValueError:
+                print("⚠ Por favor, introduce un número válido.")
+
+    # selección de puerto
+    try:
+        p_input = input("\nSeleccione un puerto [Default: 500]: ")
+        # si está vacío usa 500, si no, intenta convertir a entero
+        set_port = int(p_input) if p_input.strip() else 500
+    except ValueError:
+        print("⚠ Entrada no válida. Usando puerto 500 por defecto.")
+        set_port = 500
+
+    print(f"\n[+] Lanzando 0xFlag en: http://{selected_ip}:{set_port}")
+    print(f"[i] Presiona CTRL+C para detener el servidor.\n")
+    
+    app.run(debug=False, use_reloader=False, host=selected_ip, port=set_port)

@@ -59,7 +59,7 @@
                     <form action="/generate" method="POST">
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Target IP:</label>
+                            <label class="form-label fw-bold">IP Objetivo:</label>
                             <input
                                   type="text"
                                   class="form-control"
@@ -67,8 +67,7 @@
                                   pattern="^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$"
                                   placeholder="Ej: 10.10.10.55"
                                   title="Ingresa una IP válida (ej: 192.168.1.1)"
-                                  required
-                                >
+                                  value="{{ current_conf.target_ip if current_conf and current_conf.target_ip else '' }}" required>
                         </div>
 
                         <div class="mb-4">

@@ -8,10 +8,10 @@ CONFIG_PATH = os.path.join(DATA_DIR, CONFIG_FILE)
 # ------------ FUNCIONES ------------
 
 # función escribir archivos binarios 
-def save_configuration(attacker_ip, interface):
+def save_configuration(attacker_ip, interface, target_ip):
 
     # declaramos los datos con un formato de texto simple
-    data_string = f"{attacker_ip};{interface}"
+    data_string = f"{attacker_ip};{interface};{target_ip}"
     
     # codificamos a utf-8 para luego escribirlo en bytes
     data_bytes = data_string.encode('utf-8')
@@ -24,8 +24,8 @@ def save_configuration(attacker_ip, interface):
         # escribimos los bytes en vez de texto.
         with open(CONFIG_PATH, "wb") as f:
             f.write(data_bytes)
-            
         print(f"[INFO] Configuración guardada en {CONFIG_PATH}")
+        print(f"[INFO] Datos: {data_string}")
         return True
     
     # hacemos el control de errores pos si algo falla y que muestre el codigo de error concreto
@@ -51,12 +51,18 @@ def load_configuration():
         
         # separamos los datos por el punto y coma que pusimos al guardar
         if ";" in content_str:
-            ip, interface = content_str.split(";")
+            parts = content_str.split(";")
             
+            # recuperamos los datos de forma segura
+            attacker_ip = parts[0] if len(parts) > 0 else ""
+            interface = parts[1] if len(parts) > 1 else ""
+            target_ip = parts[2] if len(parts) > 2 else ""
+
             # devolvemos el diccionario
             return {
-                "attacker_ip": ip,
-                "interface": interface
+                "attacker_ip": attacker_ip,
+                "interface": interface,
+                "target_ip": target_ip
             }
         return None
     
