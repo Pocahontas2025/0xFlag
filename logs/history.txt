@@ -1,5 +1,9 @@
-[2025-12-23 12:44:58] CMD GENERADO: nmap -F 192.168.10.10 -oN scan_fast.txt
-[2025-12-23 16:02:13] CMD GENERADO: nmap -p- -sV -sC 10.10.10.44 -oN scan_full.txt
-[2025-12-23 16:03:53] CMD GENERADO: nmap -p- -sV -sC 10.10.55.55 -oN scan_full.txt
-[2025-12-23 16:16:49] CMD GENERADO: nmap -F 10.10.10.55 -oN scan_fast.txt
-[2025-12-23 16:29:24] CMD GENERADO: ffuf -u http://10.10.10.55/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .php
+[2025-12-17 12:57:38] CMD GENERADO: nmap -F aw kjueygosdru -oN scan_fast.txt
+[2025-12-17 13:01:41] CMD GENERADO: nmap -F . -oN scan_fast.txt
+[2025-12-17 13:03:19] CMD GENERADO: nmap -F . -oN scan_fast.txt
+[2025-12-17 13:03:35] CMD GENERADO: nmap -F 255.255.255.255 -oN scan_fast.txt
+[2025-12-17 13:05:06] CMD GENERADO: nmap -F 255.255.255.255 -oN scan_fast.txt
+[2025-12-17 13:07:57] CMD GENERADO: nmap -F 255.255.255.255 -oN scan_fast.txt
+[2025-12-17 13:08:59] CMD GENERADO: nmap -F 255.255.255.255 -oN scan_fast.txt
+[2025-12-17 13:16:50] CMD GENERADO: nmap -F 255.255.255.255 -oN scan_fast.txt
+[2025-12-17 13:17:08] CMD GENERADO: nmap -p- -sV -sC 192.167.5.5 -oN scan_full.txt

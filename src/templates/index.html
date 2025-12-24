@@ -1,67 +1,75 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>0xFlag - Alpha</title>
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <img src="{{ url_for('static', filename='assets/0xFlag_Logo.png') }}" class="position-absolute top-0 start-0 m-3" style="width: 80px; height:auto;" alt="Logo">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/alpha">Herramienta Alpha</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <header class="bg-dark py-5 separator-lila">
+            <div class="container px-5">
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center my-5">
+                            <h1 class="display-5 fw-bolder text-white mb-2 separator-lila">0xFlag</h1>
+                            <h2 class="text-white">CTF Helper</h2>
+                            <p class="lead text-white-50 mb-4">Herramienta creada para automatizar tus retos CTF. Céntrate en hackear, no en recordar sintaxis.</p>
+                            
+                            <div class="card bg-secondary text-white mb-4 p-3" style="border: 2px solid #00ff00;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-warning">⚠️ Versión Alpha v0.1 Disponible</h5>
+                                    <p class="card-text">Ya puedes probar el generador de comandos Nmap y el sistema de logs.</p>
+                                    <a class="btn btn-success btn-lg px-5" href="/alpha">PROBAR LA ALPHA AHORA</a>
+                                </div>
+                            </div>
 
-{% block title %}0xFlag - Home{% endblock %}
-
-{% block content %}
-
-<header class="bg-dark py-5 separator-lila">
-    <div class="container px-5">
-        <div class="row gx-5 justify-content-center">
-            <div class="col-lg-8">
-                <div class="text-center my-5">
-                    <h1 class="display-5 fw-bolder text-white mb-2 separator-lila">0xFlag</h1>
-                    <h2 class="text-white">CTF Helper</h2>
-                    <p class="lead text-white-50 mb-4">
-                        Herramienta creada para automatizar tus retos CTF.
-                        Céntrate en hackear, no en recordar sintaxis.
-                    </p>
-
-                    <div class="card bg-secondary text-white mb-4 p-3" style="border: 2px solid #00ff00;">
-                        <div class="card-body">
-                            <a class="btn btn-success btn-lg px-5" href="/nmap">
-                                PROBAR LA APLICACIÓN AHORA
-                            </a>
                         </div>
                     </div>
-
                 </div>
             </div>
-        </div>
-    </div>
-</header>
+        </header>
 
-<section class="py-5 border-bottom bg-custom" id="features">
-    <div class="container px-5 my-5">
-        <div class="text-center text-white mb-5">
-            <h2>Herramientas disponibles</h2>
-        </div>
-
-        <div class="row gx-5">
-            <div class="col-lg-4 mb-5 mb-lg-0">
-                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                    <i class="bi bi-search"></i>
+        <section class="py-5 border-bottom bg-custom" id="features">
+            <div class="container px-5 my-5">
+                <div class="text-center text-white mb-5">
+                    <h2>Próximas herramientas (Release Final)</h2>
                 </div>
-                <h2 class="h4 fw-bolder">Nmap</h2>
-                <p class="text-muted">Generación automática de escaneos TCP/UDP y salida a ficheros.</p>
-            </div>
-
-            <div class="col-lg-4 mb-5 mb-lg-0">
-                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                    <i class="bi bi-tornado"></i>
+                <div class="row gx-5">
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-search"></i></div>
+                        <h2 class="h4 fw-bolder">Nmap (Ya activo)</h2>
+                        <p class="text-muted">Generación automática de escaneos TCP/UDP y salida a ficheros.</p>
+                    </div>
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-tornado"></i></div>
+                        <h2 class="h4 fw-bolder">GoBuster</h2>
+                        <p class="text-muted">Próximamente: Fuzzing de directorios y subdominios optimizado.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-lightning"></i></div>
+                        <h2 class="h4 fw-bolder">Reverse Shells</h2>
+                        <p class="text-muted">Próximamente: Generador de payloads para Python, Bash y PHP.</p>
+                    </div>
                 </div>
-                <h2 class="h4 fw-bolder">GoBuster</h2>
-                <p class="text-muted">Fuzzing de directorios y subdominios optimizado.</p>
             </div>
-
-            <div class="col-lg-4">
-                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                    <i class="bi bi-lightning"></i>
-                </div>
-                <h2 class="h4 fw-bolder">Reverse Shells</h2>
-                <p class="text-muted">Generador de payloads para Python, Bash y PHP.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-{% endblock %}
+        </section>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
