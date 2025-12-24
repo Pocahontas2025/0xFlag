@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}0xFlag - Configuración{% endblock %}
+
+{% block content %}
+<div class="container px-5 my-5">
+    <div class="text-center text-white mb-5">
+        <h1 class="fw-bolder">Configuración Global</h1>
+        <p class="lead text-white-50">Define tus valores por defecto para agilizar las herramientas.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card bg-secondary text-white border-0 shadow">
+                <div class="card-body p-4">
+                    
+                    <form action="/settings" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tu IP (Attacker IP / LHOST):</label>
+                            <input type="text" class="form-control" name="attacker_ip" value="{{ current_conf.attacker_ip if current_conf else '' }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">IP Objetivo (Target IP / RHOST):</label>
+                            <input type="text" class="form-control" name="target_ip" placeholder="La IP de la máquina que estás atacando"
+                                   value="{{ current_conf.target_ip if current_conf else '' }}">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Interfaz Preferida:</label>
+                            <select class="form-select" name="interface">
+                                <option value="tun0" {% if current_conf and current_conf.interface == 'tun0' %}selected{% endif %}>tun0 (VPN)</option>
+                                <option value="eth0" {% if current_conf and current_conf.interface == 'eth0' %}selected{% endif %}>eth0 (Ethernet)</option>
+                                <option value="wlan0" {% if current_conf and current_conf.interface == 'wlan0' %}selected{% endif %}>wlan0 (Wi-Fi)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">GUARDAR</button>
+                        </div>
+                    </form>
+
+                    {% if message %}
+                    <div class="alert alert-success mt-3 text-center">
+                        {{ message }}
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
