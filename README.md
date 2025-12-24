@@ -78,6 +78,7 @@ http://127.0.0.1:5000
 
 ## 📂 Estructura del Proyecto
 
+¡¡HAY QUE ACTUALIZARLO!!
 El código sigue una arquitectura modular para facilitar la escalabilidad:
 
 ```text
@@ -104,14 +105,31 @@ PROYECTO-0XFLAG/
 
 ---
 
-## ⚠️ Estado del Proyecto
+## 🛠️ Solución de Problemas (FAQ)
 
-Actualmente en fase **Alpha**. Próximas funcionalidades para la **Release Final**:
+### ❌ Error al guardar la configuración ("Permission denied")
+Si al intentar guardar tus ajustes en el apartado **Configuración** recibes un error o la aplicación se cierra, suele ser un problema de **permisos**.
 
-  * Módulo de Reverse Shells.
-  * Asistente de tratamiento de TTY.
-  * Persistencia de configuración de usuario.
-  * Servidor localhost.
-  * Hosting web a la IP de la maquina, para conexiones remotas.
+**Causa:**
+Probablemente ejecutaste la herramienta por primera vez usando `sudo` (root), lo que creó el archivo de guardado (`data/user_config.bin`) con permisos de administrador. Si ahora intentas ejecutarla como usuario normal, no tendrás permiso para sobrescribir ese archivo.
 
----
+**Solución:**
+Tienes dos opciones:
+1.  **Ejecutar siempre con el mismo usuario** (recomendado usar usuario normal, no root, a menos que sea necesario).
+2.  **Borrar el archivo de configuración bloqueado** para que se genere de nuevo con tu usuario actual:
+
+```bash
+sudo rm data/user_config.bin
+
+```
+
+### ❌ Error: ModuleNotFoundError: No module named 'flask'
+
+Asegúrate de haber activado tu entorno virtual antes de iniciar la herramienta:
+
+```bash
+source venv/bin/activate  # En Linux/Mac
+# o
+pip install -r requirements.txt
+
+```
