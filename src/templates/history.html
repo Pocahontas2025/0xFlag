@@ -40,7 +40,9 @@
                                 <td class="text-white-50 small align-middle">{{ log.timestamp }}</td>
                                 <td class="font-monospace text-success align-middle">{{ log.command }}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-outline-light" onclick="navigator.clipboard.writeText('{{ log.command }}')" title="Copiar">
+                                    <button class="btn btn-sm btn-outline-light btn-copiar"
+                                            data-copy="{{ log.command | escape }}"
+                                            title="Copiar">
                                         <i class="bi bi-clipboard"></i>
                                     </button>
                                 </td>
@@ -73,6 +75,44 @@
         rows.forEach(row => {
             let text = row.innerText.toLowerCase();
             row.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
+
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".btn-copiar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const textToCopy = btn.dataset.copy;
+
+                // Fallback compatible with HTTP
+                const textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                textArea.style.position = "fixed";
+                textArea.style.top = "-9999px";
+                textArea.style.left = "-9999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    const successful = document.execCommand("copy");
+                    if (!successful) throw new Error();
+                } catch (err) {
+                    alert("No se pudo copiar al portapapeles. Copia manualmente.");
+                }
+
+                document.body.removeChild(textArea);
+
+                // Visual feedback (per button)
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="bi bi-check-lg"></i> Copiado';
+                btn.classList.add("copiado");
+
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove("copiado");
+                }, 1500);
+            });
         });
     });
 </script>
