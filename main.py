@@ -90,7 +90,26 @@ def generate_discovery():
         command=command
     )
 
+@app.route("/reverse", methods=["GET", "POST"])
+def reverse_shell():
+    if request.method == "GET":
+        return render_template("reverse.html", current=None, output=None, message=None)
 
+    lhost = (request.form.get("lhost") or "").strip()
+    lport = (request.form.get("lport") or "").strip()
+    template = request.form.get("template") or ""
+
+    current = {"lhost": lhost, "lport": lport, "template": template}
+
+    if not lhost or not lport or not template.strip():
+        return render_template("reverse.html", current=current, output=None,
+                               message="Completa LHOST, LPORT y la plantilla.")
+
+    logger.save_log(output)
+    
+    output = template.replace("{LHOST}", lhost).replace("{LPORT}", lport)
+
+    return render_template("reverse.html", current=current, output=output, message=None)
 
 
 # -----------------------------------------------------------------------
