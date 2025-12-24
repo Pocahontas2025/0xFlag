@@ -237,12 +237,12 @@ if __name__ == '__main__':
 
     # selección de puerto
     try:
-        p_input = input("\nSeleccione un puerto [Default: 500]: ")
-        # si está vacío usa 500, si no, intenta convertir a entero
-        set_port = int(p_input) if p_input.strip() else 500
+        p_input = input("\nSeleccione un puerto [Default: 5000]: ")
+        # si está vacío usa 5000, si no, intenta convertir a entero
+        set_port = int(p_input) if p_input.strip() else 5000
     except ValueError:
-        print("⚠ Entrada no válida. Usando puerto 500 por defecto.")
-        set_port = 500
+        print("⚠ Entrada no válida. Usando puerto 5000 por defecto.")
+        set_port = 5000
 
     print(f"\n[+] Lanzando 0xFlag en: http://{selected_ip}:{set_port}")
     print(f"[i] Presiona CTRL+C para detener el servidor.\n")
