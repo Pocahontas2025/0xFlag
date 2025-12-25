@@ -2,154 +2,65 @@
 
 {% block title %}0xFlag - NMAP{% endblock %}
 
-{% block extra_css %}
-<style>
-    .terminal-output {
-        background-color: #0000;
-        color: #00ff00;
-        font-family: 'Courier New', Courier, monospace;
-        padding: 15px;
-        border-radius: 5px;
-        border: 1px solid #00ff00;
-        margin-top: 20px;
-    }
-
-    .output-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-right: 4px;
-    }
-
-    #btn-copiar {
-        background-color: #00ff00;
-        color: #000;
-        border: none;
-        padding: 4px 8px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.2s ease;
-    }
-
-    #btn-copiar:hover {
-        background-color: #00cc00;
-    }
-
-    #btn-copiar.copiado {
-        background-color: #00ccff;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-
 <div class="container px-5 my-5">
     <div class="text-center text-white mb-5">
         <h1 class="fw-bolder">Generador Nmap</h1>
-        <p class="lead text-white-50">Introduce los datos para generar el comando.</p>
+        <p class="lead text-white-50">Escanea en busca de puertos</p>
     </div>
 
     <div class="row justify-content-center">
         <div class="col-lg-6">
-
+            
             <div class="card bg-secondary text-white border-0 shadow">
                 <div class="card-body p-4">
-
-                    <form action="/generate" method="POST">
-
+                    <form onsubmit="event.preventDefault();">
+                        
                         <div class="mb-3">
                             <label class="form-label fw-bold">IP Objetivo:</label>
-                            <input
-                                  type="text"
-                                  class="form-control"
-                                  name="target_ip"
-                                  pattern="^(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$"
-                                  placeholder="Ej: 10.10.10.55"
-                                  title="Ingresa una IP válida (ej: 192.168.1.1)"
-                                  value="{{ current_conf.target_ip if current_conf and current_conf.target_ip else '' }}" required>
+                            <input 
+                                type="text" 
+                                id="nmap_ip" 
+                                class="form-control bg-dark text-white border-0 font-monospace" 
+                                placeholder="Ej: 10.10.10.55"
+                                autocomplete="off"
+                                value="{{ config.target_ip if config and config.target_ip else '' }}">
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-bold">Scan Type:</label>
-                            <select class="form-select" name="scan_type" required>
-                                <option value="">Selecciona una opción</option>
-                                <option value="fast">Rápido (-F)</option>
-                                <option value="full">Completo (-p- -sV)</option>
-                                <option value="udp">Básico UDP</option>
+                            <label class="form-label fw-bold">Tipo de Escaneo:</label>
+                            <select id="nmap_type" class="form-select bg-dark text-white border-0">
+                                <option value="">-- Selecciona una opción --</option>
+                                {% for key, command in scans.items() %}
+                                    <option value="{{ key }}">{{ key | capitalize }} Scan</option>
+                                {% endfor %}
                             </select>
                         </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                GENERAR COMANDO
-                            </button>
-                        </div>
-
                     </form>
-
                 </div>
             </div>
 
-            {% if result %}
-            <div class="terminal-output">
+            <div class="terminal-output mt-4" id="nmap-output-container" style="display:none;">
                 <div class="output-header">
-                    <h5 class="mb-0">&gt; Output:</h5>
-                    <button id="btn-copiar" type="button">
+                    <span class="fw-bold">&gt; Comando Generado:</span>
+                    <button class="btn-copy" id="btn-nmap-copy" data-target="nmap-output-text">
                         <i class="bi bi-clipboard"></i> Copiar
                     </button>
                 </div>
 
-                <hr class="border-success mt-1 mb-2">
-                <p id="output-text" class="mb-0">{{ result }}</p>
+                <input type="text" 
+                    id="nmap-output-text" 
+                    class="terminal-input" 
+                    readonly 
+                    value="">
             </div>
-            {% endif %}
 
         </div>
     </div>
 </div>
 
-{% endblock %}
-
-{% block extra_js %}
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("btn-copiar");
-    const output = document.getElementById("output-text");
-
-    if (!btn || !output) return;
-
-    btn.addEventListener("click", () => {
-        const textToCopy = output.innerText;
-
-        // Fallback for all browsers/sites
-        const textArea = document.createElement("textarea");
-        textArea.value = textToCopy;
-        // Avoid scrolling to bottom
-        textArea.style.position = "fixed";
-        textArea.style.top = "-9999px";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-
-        try {
-            const successful = document.execCommand("copy");
-            if (!successful) throw new Error("Copy command failed");
-        } catch (err) {
-            alert("No se pudo copiar al portapapeles. Copia manualmente.");
-        }
-
-        document.body.removeChild(textArea);
-
-        // Show visual feedback
-        btn.classList.add("copiado");
-        btn.innerHTML = '<i class="bi bi-check-lg"></i> Copiado';
-        setTimeout(() => {
-            btn.classList.remove("copiado");
-            btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
-        }, 1500);
-    });
-});
+    window.nmapDataDB = {{ scans | tojson }};
 </script>
+
 {% endblock %}

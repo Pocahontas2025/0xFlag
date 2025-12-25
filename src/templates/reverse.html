@@ -2,187 +2,114 @@
 
 {% block title %}0xFlag - Reverse Shell{% endblock %}
 
-{% block extra_css %}
-<style>
-/* === Selector de tipo (estilo Discovery) === */
-.shell-card {
-  cursor: pointer;
-  background-color: #5c636a; /* mismo gris del form */
-  transition: background-color .15s ease-in-out;
-}
-
-.shell-card:hover {
-  background-color: #6c757d;
-}
-
-.shell-card.active {
-  background-color: #198754; /* verde Bootstrap success */
-}
-
-.shell-card input {
-  display: none;
-}
-
-/* Output (mismo estilo plano) */
-.output-block {
-  background-color: #1c1f22;
-  color: #e9ecef;
-  border-radius: .375rem;
-  padding: .75rem 1rem;
-  font-family: inherit; /* MISMA FUENTE que el resto */
-  font-size: .9rem;
-}
-</style>
-{% endblock %}
-
 {% block content %}
 <div class="container px-5 my-5">
 
   <div class="text-center text-white mb-4">
     <h1 class="fw-bolder">Reverse Shell</h1>
-    <p class="text-white-50">
-      Generación de comandos para reverse shell
-    </p>
+    <p class="text-white-50">Generación reactiva de Payloads y Listeners</p>
   </div>
 
-  <!-- CARD PRINCIPAL -->
-  <div class="card bg-secondary text-white border-0 shadow">
-    <div class="card-body p-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
 
-      <!-- TIPO -->
-      <label class="fw-bold mb-2 d-block">Tipo de shell</label>
-
-      <div class="row g-3 mb-4">
-
-        <div class="col-md-4">
-          <label class="card shell-card active">
-            <input type="radio" name="shell_type" value="bash" checked>
-            <div class="card-body text-center p-3">
-              <div class="fw-bold">Bash</div>
-              <small>/bin/bash</small>
+      <div class="card bg-secondary text-white border-0 shadow mb-4">
+        <div class="card-body p-4">
+          
+          <label class="fw-bold mb-2 d-block">Tipo de shell</label>
+          <div class="row g-3 mb-4">
+            
+            <div class="col-md-4">
+              <label class="card shell-card active h-100">
+                <input type="radio" name="shell_type" value="bash" checked>
+                <div class="card-body text-center p-3">
+                  <div class="fw-bold"><i class="bi bi-terminal-fill"></i> Bash</div>
+                  <small class="text-white-50">/bin/bash</small>
+                </div>
+              </label>
             </div>
-          </label>
-        </div>
 
-        <div class="col-md-4">
-          <label class="card shell-card">
-            <input type="radio" name="shell_type" value="php">
-            <div class="card-body text-center p-3">
-              <div class="fw-bold">PHP</div>
-              <small>CLI / Web</small>
+            <div class="col-md-4">
+              <label class="card shell-card h-100">
+                <input type="radio" name="shell_type" value="php">
+                <div class="card-body text-center p-3">
+                  <div class="fw-bold"><i class="bi bi-filetype-php"></i> PHP</div>
+                  <small class="text-white-50">cmd / web</small>
+                </div>
+              </label>
             </div>
-          </label>
-        </div>
 
-        <div class="col-md-4">
-          <label class="card shell-card">
-            <input type="radio" name="shell_type" value="nc">
-            <div class="card-body text-center p-3">
-              <div class="fw-bold">Netcat</div>
-              <small>nc / ncat</small>
+            <div class="col-md-4">
+              <label class="card shell-card h-100">
+                <input type="radio" name="shell_type" value="nc">
+                <div class="card-body text-center p-3">
+                  <div class="fw-bold"><i class="bi bi-hdd-network"></i> Netcat</div>
+                  <small class="text-white-50">mkfifo</small>
+                </div>
+              </label>
             </div>
-          </label>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-7 mb-3">
+              <label class="fw-bold">LHOST (Tu IP)</label>
+              <input
+                id="lhost"
+                type="text"
+                class="form-control bg-dark text-white border-0"
+                placeholder="Ej: 10.10.14.5"
+                value="{{ config.attacker_ip if config and config.attacker_ip else '' }}"
+              >
+            </div>
+
+            <div class="col-md-5 mb-3">
+              <label class="fw-bold">LPORT</label>
+              <input
+                id="lport"
+                type="number"
+                class="form-control bg-dark text-white border-0"
+                placeholder="4444"
+                value="4444"
+              >
+            </div>
+          </div>
+
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="urlencode">
+            <label class="form-check-label text-white-50" for="urlencode">
+              Aplicar URL Encode (para navegadores/curl)
+            </label>
+          </div>
+
         </div>
-
       </div>
 
-      <!-- HOST / PORT -->
-      <div class="mb-3">
-        <label class="fw-bold">LHOST</label>
-        <input
-          id="lhost"
-          type="text"
-          class="form-control bg-dark text-white border-0"
-          placeholder="10.10.10.5"
-          maxlength="15"
-          pattern="^(?:\d{1,3}\.){3}\d{1,3}$">
+      <div class="terminal-output mb-4">
+          <div class="output-header">
+              <span class="fw-bold">&gt; Payload:</span>
+              <button class="btn-copy" type="button" data-target="output">
+                  <i class="bi bi-clipboard"></i> Copiar
+              </button>
+          </div>
+          <div id="output" class="terminal-input text-break" style="height: auto;">
+            Esperando datos...
+          </div>
       </div>
 
-      <div class="mb-4">
-        <label class="fw-bold">LPORT</label>
-        <input
-          id="lport"
-          type="number"
-          class="form-control bg-dark text-white border-0"
-          min="1"
-          max="65535"
-          placeholder="4444">
+      <div class="terminal-output">
+          <div class="output-header">
+              <span class="fw-bold">&gt; Listener:</span>
+              <button class="btn-copy" type="button" data-target="listener">
+                  <i class="bi bi-clipboard"></i> Copiar
+              </button>
+          </div>
+          <div id="listener" class="terminal-input text-break" style="height: auto;">
+            nc -lvnp 4444
+          </div>
       </div>
-
-      <div class="form-check mb-4">
-        <input class="form-check-input" type="checkbox" id="urlencode">
-        <label class="form-check-label">
-          URL Encode
-        </label>
-      </div>
-
-      <!-- COMANDO -->
-      <label class="fw-bold mb-2 d-block">Comando generado</label>
-      <div class="output-block mb-3" id="output"></div>
-
-      <button class="btn btn-success w-100 mb-4" type="button" onclick="copy('output')">
-        COPIAR COMANDO
-      </button>
-
-      <!-- LISTENER -->
-      <label class="fw-bold mb-2 d-block">Listener (nc)</label>
-      <div class="output-block mb-3" id="listener"></div>
-
-      <button class="btn btn-success w-100 mb-4" type="button" onclick="copy('listener')">
-        COPIAR LISTENER
-      </button>
 
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-const host = document.getElementById("lhost");
-const port = document.getElementById("lport");
-const output = document.getElementById("output");
-const listener = document.getElementById("listener");
-const urlencode = document.getElementById("urlencode");
-const cards = document.querySelectorAll(".shell-card");
-
-cards.forEach(card => {
-  card.addEventListener("click", () => {
-    cards.forEach(c => c.classList.remove("active"));
-    card.classList.add("active");
-    generate();
-  });
-});
-
-[host, port, urlencode].forEach(el =>
-  el.addEventListener("input", generate)
-);
-
-function generate() {
-  if (!host.value || !port.value) return;
-
-  let ip = host.value;
-  let p = port.value;
-
-  if (urlencode.checked) {
-    ip = encodeURIComponent(ip);
-    p = encodeURIComponent(p);
-  }
-
-  const type = document.querySelector("input[name='shell_type']:checked").value;
-
-  output.textContent = `${type} reverse → ${ip}:${p}`;
-  listener.textContent = `nc -lvnp ${port.value}`;
-}
-
-function copy(id) {
-  const text = document.getElementById(id).innerText;
-  const ta = document.createElement("textarea");
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand("copy");
-  document.body.removeChild(ta);
-}
-</script>
 {% endblock %}
