@@ -8272,7 +8272,6 @@ textarea.form-control-lg {
   border-bottom: 3px solid #A432E2;
 }
 
-
 .bg-success {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
@@ -10970,4 +10969,37 @@ textarea.form-control-lg {
   height: 4rem;
   width: 4rem;
   font-size: 2rem;
+}
+
+.cyber-dropdown {
+    background-color: #050423 !important;
+    border: 1px solid #A432E2 !important; 
+    border-radius: 5px; 
+}
+
+.cyber-dropdown .dropdown-item {
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+.cyber-dropdown .dropdown-item:hover,
+.cyber-dropdown .dropdown-item:focus {
+    background-color: #A432E2 !important;
+    color: white !important;
+}
+
+.nmap-card {
+    border: 2px solid #00ff00;
+    transition: all 0.3s ease;
+    background-color: transparent; 
+}
+
+.nmap-card:hover {
+    --bs-bg-opacity: 0.8; 
+    background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity)) !important;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+}
+
+.nmap-card:hover p {
+    color: #e0e0e0 !important;
 }

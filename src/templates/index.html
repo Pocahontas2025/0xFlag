@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<header class="bg-dark py-5 separator-lila">
+<header class="bg-dark">
     <div class="container px-5">
         <div class="row gx-5 justify-content-center">
             <div class="col-lg-8">
@@ -15,53 +15,52 @@
                         Herramienta creada para automatizar tus retos CTF.
                         Céntrate en hackear, no en recordar sintaxis.
                     </p>
-
-                    <div class="card bg-secondary text-white mb-4 p-3" style="border: 2px solid #00ff00;">
-                        <div class="card-body">
-                            <a class="btn btn-success btn-lg px-5" href="/nmap">
-                                PROBAR LA APLICACIÓN AHORA
-                            </a>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<section class="py-5 border-bottom bg-custom" id="features">
+<section class="separator-lila bg-dark" id="features">
     <div class="container px-5 my-5">
+        
         <div class="text-center text-white mb-5">
-            <h2>Herramientas disponibles</h2>
+            <h2>Herramientas más usadas</h2>
         </div>
 
         <div class="row gx-5">
+            
             <div class="col-lg-4 mb-5 mb-lg-0">
-                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                    <i class="bi bi-search"></i>
-                </div>
-                <h2 class="h4 fw-bolder">Nmap</h2>
-                <p class="text-muted">Generación automática de escaneos TCP/UDP y salida a ficheros.</p>
+                <a href="/nmap" class="nmap-card d-block p-4 rounded-3 text-decoration-none h-100">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h2 class="h4 fw-bolder text-white">Nmap</h2>
+                    <p class="text-muted mb-0">Generación automática de escaneos TCP/UDP y salida a ficheros.</p>
+                </a>
             </div>
 
             <div class="col-lg-4 mb-5 mb-lg-0">
-                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                    <i class="bi bi-tornado"></i>
-                </div>
-                <h2 class="h4 fw-bolder">GoBuster</h2>
-                <p class="text-muted">Fuzzing de directorios y subdominios optimizado.</p>
+                <a href="/discovery" class="nmap-card d-block p-4 rounded-3 text-decoration-none h-100">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                        <i class="bi bi-tornado"></i>
+                    </div>
+                    <h2 class="h4 fw-bolder text-white">GoBuster</h2>
+                    <p class="text-muted mb-0">Fuzzing de directorios y subdominios optimizado.</p>
+                </a>
             </div>
 
-            <div class="col-lg-4">
-                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-                    <i class="bi bi-lightning"></i>
-                </div>
-                <h2 class="h4 fw-bolder">Reverse Shells</h2>
-                <p class="text-muted">Generador de payloads para Python, Bash y PHP.</p>
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <a href="/reverse" class="nmap-card d-block p-4 rounded-3 text-decoration-none h-100">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                        <i class="bi bi-lightning"></i>
+                    </div>
+                    <h2 class="h4 fw-bolder text-white">Reverse Shells</h2>
+                    <p class="text-muted mb-0">Generador de payloads para Python, Bash y PHP.</p>
+                </a>
             </div>
-        </div>
-    </div>
+
+        </div> </div>
 </section>
 
 {% endblock %}
