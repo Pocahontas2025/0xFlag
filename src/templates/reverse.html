@@ -7,24 +7,22 @@
 
   <div class="text-center text-white mb-4">
     <h1 class="fw-bolder">Reverse Shell</h1>
-    <p class="text-white-50">
-      Generación reactiva de Payloads y Listeners
-    </p>
+    <p class="text-white-50">Generación reactiva de Payloads y Listeners</p>
   </div>
 
   <div class="row justify-content-center">
     <div class="col-lg-8">
 
-      <!-- CARD PRINCIPAL -->
       <div class="card bg-secondary text-white border-0 shadow mb-4">
         <div class="card-body p-4">
-          <!-- TIPO -->
+          
           <label class="fw-bold mb-2 d-block">Tipo de shell</label>
           <div class="row g-3 mb-4">
             
             <div class="col-md-4">
-              <label class="card shell-card active cursor-pointer">
-                <input type="radio" name="shell_type" value="bash" checked style="display:none;"> <div class="card-body text-center p-3">
+              <label class="card shell-card active h-100">
+                <input type="radio" name="shell_type" value="bash" checked>
+                <div class="card-body text-center p-3">
                   <div class="fw-bold"><i class="bi bi-terminal-fill"></i> Bash</div>
                   <small class="text-white-50">/bin/bash</small>
                 </div>
@@ -32,8 +30,8 @@
             </div>
 
             <div class="col-md-4">
-              <label class="card shell-card cursor-pointer">
-                <input type="radio" name="shell_type" value="php" style="display:none;">
+              <label class="card shell-card h-100">
+                <input type="radio" name="shell_type" value="php">
                 <div class="card-body text-center p-3">
                   <div class="fw-bold"><i class="bi bi-filetype-php"></i> PHP</div>
                   <small class="text-white-50">cmd / web</small>
@@ -42,8 +40,8 @@
             </div>
 
             <div class="col-md-4">
-              <label class="card shell-card cursor-pointer">
-                <input type="radio" name="shell_type" value="nc" style="display:none;">
+              <label class="card shell-card h-100">
+                <input type="radio" name="shell_type" value="nc">
                 <div class="card-body text-center p-3">
                   <div class="fw-bold"><i class="bi bi-hdd-network"></i> Netcat</div>
                   <small class="text-white-50">mkfifo</small>
@@ -53,7 +51,6 @@
 
           </div>
 
-          <!-- HOST / PORT -->
           <div class="row">
             <div class="col-md-7 mb-3">
               <label class="fw-bold">LHOST (Tu IP)</label>
@@ -61,8 +58,9 @@
                 id="lhost"
                 type="text"
                 class="form-control bg-dark text-white border-0"
-                placeholder="10.10.10.5"
-                maxlength="15">
+                placeholder="Ej: 10.10.14.5"
+                value="{{ config.attacker_ip if config and config.attacker_ip else '' }}"
+              >
             </div>
 
             <div class="col-md-5 mb-3">
@@ -72,7 +70,9 @@
                 type="number"
                 class="form-control bg-dark text-white border-0"
                 placeholder="4444"
-                value="4444"> </div>
+                value="4444"
+              >
+            </div>
           </div>
 
           <div class="form-check mt-2">
@@ -85,30 +85,31 @@
         </div>
       </div>
 
-      <!-- COMANDO -->
       <div class="terminal-output mb-4">
-          <div class="output-header border-bottom border-success pb-2 mb-2">
-              <h5 class="mb-0">&gt; Payload:</h5>
+          <div class="output-header">
+              <span class="fw-bold">&gt; Payload:</span>
               <button class="btn-copy" type="button" data-target="output">
                   <i class="bi bi-clipboard"></i> Copiar
               </button>
           </div>
-          <p id="output" class="mb-0 text-break">Completa la IP arriba...</p>
+          <div id="output" class="terminal-input text-break" style="height: auto;">
+            Esperando datos...
+          </div>
       </div>
 
-      <!-- LISTENER -->
       <div class="terminal-output">
-          <div class="output-header border-bottom border-success pb-2 mb-2">
-              <h5 class="mb-0">&gt; Listener:</h5>
+          <div class="output-header">
+              <span class="fw-bold">&gt; Listener:</span>
               <button class="btn-copy" type="button" data-target="listener">
                   <i class="bi bi-clipboard"></i> Copiar
               </button>
           </div>
-          <p id="listener" class="mb-0">nc -lvnp 4444</p>
+          <div id="listener" class="terminal-input text-break" style="height: auto;">
+            nc -lvnp 4444
+          </div>
       </div>
 
     </div>
   </div>
 </div>
-
 {% endblock %}

