@@ -2,39 +2,6 @@
 
 {% block title %}0xFlag - Reverse Shell{% endblock %}
 
-{% block extra_css %}
-<style>
-/* === Selector de tipo (estilo Discovery) === */
-.shell-card {
-  cursor: pointer;
-  background-color: #5c636a; /* mismo gris del form */
-  transition: background-color .15s ease-in-out;
-}
-
-.shell-card:hover {
-  background-color: #6c757d;
-}
-
-.shell-card.active {
-  background-color: #198754; /* verde Bootstrap success */
-}
-
-.shell-card input {
-  display: none;
-}
-
-/* Output (mismo estilo plano) */
-.output-block {
-  background-color: #1c1f22;
-  color: #e9ecef;
-  border-radius: .375rem;
-  padding: .75rem 1rem;
-  font-family: inherit; /* MISMA FUENTE que el resto */
-  font-size: .9rem;
-}
-</style>
-{% endblock %}
-
 {% block content %}
 <div class="container px-5 my-5">
 
@@ -120,69 +87,19 @@
       <label class="fw-bold mb-2 d-block">Comando generado</label>
       <div class="output-block mb-3" id="output"></div>
 
-      <button class="btn btn-success w-100 mb-4" type="button" onclick="copy('output')">
-        COPIAR COMANDO
+      <button class="btn btn-success w-100 mb-4 btn-copy" type="button" data-target="output">
+        <i class="bi bi-clipboard"></i> COPIAR COMANDO
       </button>
 
       <!-- LISTENER -->
       <label class="fw-bold mb-2 d-block">Listener (nc)</label>
       <div class="output-block mb-3" id="listener"></div>
 
-      <button class="btn btn-success w-100 mb-4" type="button" onclick="copy('listener')">
-        COPIAR LISTENER
+      <button class="btn btn-success w-100 mb-4 btn-copy" type="button" data-target="listener">
+        <i class="bi bi-clipboard"></i> COPIAR LISTENER
       </button>
 
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-const host = document.getElementById("lhost");
-const port = document.getElementById("lport");
-const output = document.getElementById("output");
-const listener = document.getElementById("listener");
-const urlencode = document.getElementById("urlencode");
-const cards = document.querySelectorAll(".shell-card");
-
-cards.forEach(card => {
-  card.addEventListener("click", () => {
-    cards.forEach(c => c.classList.remove("active"));
-    card.classList.add("active");
-    generate();
-  });
-});
-
-[host, port, urlencode].forEach(el =>
-  el.addEventListener("input", generate)
-);
-
-function generate() {
-  if (!host.value || !port.value) return;
-
-  let ip = host.value;
-  let p = port.value;
-
-  if (urlencode.checked) {
-    ip = encodeURIComponent(ip);
-    p = encodeURIComponent(p);
-  }
-
-  const type = document.querySelector("input[name='shell_type']:checked").value;
-
-  output.textContent = `${type} reverse → ${ip}:${p}`;
-  listener.textContent = `nc -lvnp ${port.value}`;
-}
-
-function copy(id) {
-  const text = document.getElementById(id).innerText;
-  const ta = document.createElement("textarea");
-  ta.value = text;
-  document.body.appendChild(ta);
-  ta.select();
-  document.execCommand("copy");
-  document.body.removeChild(ta);
-}
-</script>
 {% endblock %}

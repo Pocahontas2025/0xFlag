@@ -2,46 +2,6 @@
 
 {% block title %}0xFlag - NMAP{% endblock %}
 
-{% block extra_css %}
-<style>
-    .terminal-output {
-        background-color: #0000;
-        color: #00ff00;
-        font-family: 'Courier New', Courier, monospace;
-        padding: 15px;
-        border-radius: 5px;
-        border: 1px solid #00ff00;
-        margin-top: 20px;
-    }
-
-    .output-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-right: 4px;
-    }
-
-    #btn-copiar {
-        background-color: #00ff00;
-        color: #000;
-        border: none;
-        padding: 4px 8px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.2s ease;
-    }
-
-    #btn-copiar:hover {
-        background-color: #00cc00;
-    }
-
-    #btn-copiar.copiado {
-        background-color: #00ccff;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
 
 <div class="container px-5 my-5">
@@ -95,7 +55,7 @@
             <div class="terminal-output">
                 <div class="output-header">
                     <h5 class="mb-0">&gt; Output:</h5>
-                    <button id="btn-copiar" type="button">
+                    <button class="btn-copy" data-target="output-text">
                         <i class="bi bi-clipboard"></i> Copiar
                     </button>
                 </div>
@@ -109,47 +69,4 @@
     </div>
 </div>
 
-{% endblock %}
-
-{% block extra_js %}
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("btn-copiar");
-    const output = document.getElementById("output-text");
-
-    if (!btn || !output) return;
-
-    btn.addEventListener("click", () => {
-        const textToCopy = output.innerText;
-
-        // Fallback for all browsers/sites
-        const textArea = document.createElement("textarea");
-        textArea.value = textToCopy;
-        // Avoid scrolling to bottom
-        textArea.style.position = "fixed";
-        textArea.style.top = "-9999px";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-
-        try {
-            const successful = document.execCommand("copy");
-            if (!successful) throw new Error("Copy command failed");
-        } catch (err) {
-            alert("No se pudo copiar al portapapeles. Copia manualmente.");
-        }
-
-        document.body.removeChild(textArea);
-
-        // Show visual feedback
-        btn.classList.add("copiado");
-        btn.innerHTML = '<i class="bi bi-check-lg"></i> Copiado';
-        setTimeout(() => {
-            btn.classList.remove("copiado");
-            btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
-        }, 1500);
-    });
-});
-</script>
 {% endblock %}
