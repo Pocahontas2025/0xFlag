@@ -3,3 +3,5 @@
 [2025-12-23 16:03:53] CMD GENERADO: nmap -p- -sV -sC 10.10.55.55 -oN scan_full.txt
 [2025-12-23 16:16:49] CMD GENERADO: nmap -F 10.10.10.55 -oN scan_fast.txt
 [2025-12-23 16:29:24] CMD GENERADO: ffuf -u http://10.10.10.55/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .php
+[2025-12-25 20:48:59] CMD GENERADO: nmap -p- -sV -sC 12.12.12.12 -oN scan_full.txt
+[2025-12-25 20:50:06] CMD GENERADO: nmap -F 12.12.12.21 -oN scan_fast.txt
