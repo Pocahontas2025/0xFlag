@@ -6,146 +6,88 @@
 <div class="container px-5 my-5">
   <div class="text-center text-white mb-5">
     <h1 class="fw-bolder">Discovery (Directorios)</h1>
-    <p class="lead text-white-50">
-      Generación de comandos para descubrimiento de directorios
-    </p>
+    <p class="lead text-white-50">Generación de comandos para descubrimiento de directorios</p>
   </div>
-
+  
   <div class="row justify-content-center">
     <div class="col-lg-7">
-
+      
       <div class="card bg-secondary text-white border-0 shadow">
         <div class="card-body p-4">
-
-          <form action="/generate_discovery" method="POST">
-
+          
+          <form onsubmit="event.preventDefault();">
+            
             <!-- URL -->
             <div class="mb-3">
               <label class="form-label fw-bold">URL objetivo</label>
               <input
-                type="text"
-                class="form-control"
-                name="target_url"
-                required
-                value="{{ current.target_url if current else '' }}"
-                placeholder="http://10.10.10.55 o 10.10.10.55">
+              type="text"
+              id="disco_url"
+              class="form-control bg-dark text-white border-0"
+              placeholder="http://10.10.10.55"
+              value="{% if config and config.target_ip %}http://{{ config.target_ip }}{% endif %}"
+              required>
               <div class="form-text text-white-50">
-                Si no se indica esquema, se asume http://
+                Se recomienda incluir http:// o https://
               </div>
             </div>
-
+            
             <!-- Wordlist -->
             <div class="mb-3">
               <label class="form-label fw-bold">Diccionario (wordlist)</label>
               <input
-                type="text"
-                class="form-control"
-                name="wordlist"
-                required
-                value="{{ current.wordlist if current else '' }}"
-                placeholder="/usr/share/wordlists/dirb/common.txt">
+              type="text"
+              id="disco_wordlist"
+              class="form-control bg-dark text-white border-0"
+              placeholder="/usr/share/wordlists/dirb/common.txt"
+              value="{{ config.wordlist if config and config.wordlist else '/usr/share/wordlists/dirb/common.txt' }}"
+              required>
             </div>
-
+            
             <!-- Extensiones -->
             <div class="mb-3">
               <label class="form-label fw-bold">Extensiones (opcional)</label>
               <input
-                type="text"
-                class="form-control"
-                name="extensions"
-                value="{{ current.extensions if current else '' }}"
-                placeholder=".php, .txt, .bak">
+              type="text"
+              id="disco_extensions"
+              class="form-control bg-dark text-white border-0"
+              placeholder="php,txt,html">
               <div class="form-text text-white-50">
-                Separadas por comas. Con o sin punto.
+                Separadas por comas (ej: php,txt)
               </div>
             </div>
-
+            
             <!-- Tool -->
-            <div class="mb-3">
+            <div class="mb-4">
               <label class="form-label fw-bold">Herramienta</label>
-              <select class="form-select" name="tool">
-                <option value="gobuster" {% if current and current.tool=='gobuster' %}selected{% endif %}>gobuster</option>
-                <option value="ffuf" {% if current and current.tool=='ffuf' %}selected{% endif %}>ffuf</option>
-                <option value="dirsearch" {% if current and current.tool=='dirsearch' %}selected{% endif %}>dirsearch</option>
+              <select class="form-select bg-dark text-white border-0" id="disco_tool">
+                <option value="gobuster">gobuster</option>
+                <option value="ffuf">ffuf</option>
+                <option value="dirsearch">dirsearch</option>
               </select>
             </div>
-
-            <div class="d-grid mt-4">
-              <button type="submit" class="btn btn-success btn-lg">
-                GENERAR COMANDO
-              </button>
-            </div>
-
+            
           </form>
         </div>
       </div>
-
-      {% if message %}
-        <div class="alert alert-info mt-3">
-          {{ message }}
+      
+      <div class="terminal-output mt-4" id="disco-output-container" style="display:none;">
+        <div class="output-header">
+          <span class="fw-bold">&gt; Comando Generado:</span>
+          <button class="btn-copy" id="btn-disco-copy" type="button" data-target="disco-output-text">
+            <i class="bi bi-clipboard"></i> Copiar
+          </button>
         </div>
-      {% endif %}
-
-      {% if command %}
-        <div class="terminal-output">
-            <div class="output-header">
-                <h5 class="mb-0">&gt; Output:</h5>
-                <button id="btn-copiar" type="button">
-                    <i class="bi bi-clipboard"></i> Copiar
-                </button>
-            </div>
-
-            <hr class="border-success mt-1 mb-2">
-            <p id="output-text" class="mb-0">{{ command }}</p>
-        </div>
-        {% endif %}
-
+        
+        <div 
+        id="disco-output-text" 
+        class="font-monospace text-break mt-2" 
+        style="outline: none; background: transparent; color: #00ff00;">
+        Esperando datos...
+      </div>
+    </div>
 
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("btn-copiar");
-    const output = document.getElementById("output-text");
-
-    if (!btn || !output) return;
-
-    btn.addEventListener("click", () => {
-        const textToCopy = output.innerText;
-
-        // Fallback for all browsers/sites
-        const textArea = document.createElement("textarea");
-        textArea.value = textToCopy;
-        // Avoid scrolling to bottom
-        textArea.style.position = "fixed";
-        textArea.style.top = "-9999px";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-
-        try {
-            const successful = document.execCommand("copy");
-            if (!successful) throw new Error("Copy command failed");
-        } catch (err) {
-            alert("No se pudo copiar al portapapeles. Copia manualmente.");
-        }
-
-        document.body.removeChild(textArea);
-
-        // Show visual feedback
-        btn.classList.add("copiado");
-        btn.innerHTML = '<i class="bi bi-check-lg"></i> Copiado';
-        setTimeout(() => {
-            btn.classList.remove("copiado");
-            btn.innerHTML = '<i class="bi bi-clipboard"></i> Copiar';
-        }, 1500);
-    });
-});
-</script>
-
 {% endblock %}

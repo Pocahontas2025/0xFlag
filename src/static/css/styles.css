@@ -14,10 +14,7 @@
 /*-----------------------------------------------------------------------*/
 
 /* === Códigos generados por la web === */
-/* 1. Cajas de Salida (Terminal Style)
-   Unificamos .terminal-output y .output-block para que todas se vean igual */
-.terminal-output, 
-.output-block {
+.terminal-output,.output-block {
     background-color: #000000;       /* Fondo negro puro */
     color: #00ff00;                  /* Texto verde hacker */
     font-family: 'Courier New', Courier, monospace;
@@ -29,7 +26,7 @@
     min-height: 50px;                /* Altura mínima para que no se vea aplastado vacio */
 }
 
-/* Cabecera opcional dentro del terminal (para Nmap/TTY) */
+/* Cabecera opcional dentro del terminal*/
 .output-header {
     display: flex;
     justify-content: space-between;
@@ -39,44 +36,102 @@
     padding-bottom: 5px;
 }
 
-/* 2. Botón de Copiar (Universal) 
-   Cambiado de #btn-copiar a .btn-copy */
-.btn-copy {
-    /* Hereda estilos de btn-success de Bootstrap, 
-       pero forzamos algunos ajustes si quieres */
-    font-weight: bold;
-    letter-spacing: 0.5px;
+.terminal-input {
+    background-color: transparent !important; 
+    color: #00ff00 !important;                
+    border: none !important;                  
+    outline: none !important;                
+    box-shadow: none !important;              
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    width: 100%;
+}
+.terminal-input::selection {
+    background-color: #00ff00;
+    color: #000000;
 }
 
-/* 3. Tarjetas de Selección (Reverse Shell) */
+/* Botón de Copiar*/
+.btn-copy {
+  background-color: #00ff00;
+  color: #000;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+.btn-copy:hover {
+  background-color: #00cc00 !important;
+}
+.btn-copy.copiado {
+    background-color: #ae48e6 !important;
+    color: #fff !important;
+    transform: scale(1.02);
+}
+
+/* === ESTILOS PARA TTY ASSIST === */
+
+/* Fila de cada paso en TTY */
+.terminal-row {
+    border-bottom: 1px solid #113311;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+/* El número del paso (1., 2., etc.) */
+.terminal-row span.text-muted {
+    color: #448844 !important;
+    font-family: monospace;
+    min-width: 25px;
+}
+.terminal-row .terminal-input {
+    padding-left: 0;
+}
+
+/* Personalización de la alerta de notas */
+.alert-dark.border-warning {
+    background-color: #1a1a1a;
+    border: 1px solid #ffc107;
+}
+
+/* === ESTILOS REVERSE SHELL === */
+
 .shell-card {
     cursor: pointer;
-    background-color: #495057 !important;       /* Un gris un poco más oscuro para contraste */
+    background-color: #212529 !important; 
     color: #fff;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+    border: 1px solid #000;
+
     transition: all 0.2s ease-in-out;
     position: relative;
-    border: 2px solid transparent;   /* Borde invisible para evitar saltos */
-    height: 100%;                    /* Para que todas tengan la misma altura */
+    border: 2px solid transparent; 
+    height: 100%;                   
 }
 
-/* Hover: Se ilumina ligeramente y sube */
 .shell-card:hover {
-    background-color: #6c757d;
-    transform: translateY(-3px);     /* Efecto de elevación */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background-color: #495057 !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transform: translateY(-4px);
+    border-color: #6c757d;
+    color: #fff;
 }
 
 /* Estado Activo (Seleccionado) */
 .shell-card.active {
-    background-color: #198754 !important; /* Verde Bootstrap */
-    border-color: #00ff00;           /* Borde verde brillante */
-    box-shadow: 0 0 15px rgba(25, 135, 84, 0.6); /* Resplandor */
+    background-color: #198754 !important; 
+    box-shadow: 0 0 15px rgba(25, 135, 84, 0.6); 
+    border: 1px solid #00ff00;
+    color: #fff;
 }
 
 /* Ocultar el radio button nativo */
 .shell-card input[type="radio"] {
     display: none; 
 }
+
 /*-----------------------------------------------------------------------*/
 
 :root {

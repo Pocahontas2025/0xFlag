@@ -6,65 +6,47 @@
 <div class="container px-5 my-5">
     <div class="text-center text-white mb-5">
         <h1 class="fw-bolder">TTY Assistant</h1>
-        <p class="lead text-white-50">Estabiliza tu TTY</p>
+        <p class="lead text-white-50">Estabiliza tu Shell interactiva</p>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card bg-secondary text-white border-0 shadow">
+        <div class="col-lg-8">
+            
+            <div class="card bg-secondary text-white border-0 shadow mb-4">
                 <div class="card-body p-4">
-<form method="POST">
-
-    <div class="mb-3">
-        <label class="form-label fw-bold">Select TTY stabilization method:</label>
-        <select class="form-select" name="procedure" required>
-            <option value="">-- Selecciona un metodo --</option>
-            {% for key, proc in procedures.items() %}
-                <option value="{{ key }}" {% if selected == key %}selected{% endif %}>
-                    {{ proc.name }} — {{ proc.description }}
-                </option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="d-grid">
-        <button type="submit" class="btn btn-success btn-lg">
-            MOSTRAR PASOS
-        </button>
-    </div>
-
-</form>
-
-
+                    <label class="form-label fw-bold">Selecciona el método:</label>
+                    <select class="form-select bg-dark text-white border-0" id="tty_select">
+                        <option value="">-- Elige una técnica --</option>
+                        {% for key, proc in procedures.items() %}
+                            <option value="{{ key }}">{{ proc.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
 
-            {% if procedure %}
-<div class="terminal-output">
-    <div class="output-header">
-        <h5 class="mb-0">&gt; {{ procedure.name }}</h5>
-        <button class="btn-copy" data-target="output-text">
-            <i class="bi bi-clipboard"></i> Copiar
-        </button>
-    </div>
+            <div id="tty-output-container" class="terminal-output" style="display: none;">
+                
+                <div class="output-header">
+                    <div>
+                        <span class="fw-bold" id="tty-title-display"></span>
+                        <span class="badge border border-success text-success bg-transparent ms-2" id="tty-desc-display"></span>
+                    </div>
+                </div>
+                
+                <div id="tty-commands-list"></div>
 
-    <hr class="border-success mt-1 mb-2">
-
-    <pre id="output-text" class="mb-0">
-{% for cmd in procedure.commands %}
-{{ loop.index }}. {{ cmd }}
-{% endfor %}
-    </pre>
-
-    {% if procedure.notes %}
-    <div class="mt-2 text-warning small">
-        ⚠ {{ procedure.notes }}
-    </div>
-    {% endif %}
-</div>
-{% endif %}
+                <div id="tty-notes-box" class="alert alert-dark border-warning text-warning mt-4 mb-0 p-3 small" style="display: none;">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> 
+                    <span id="tty-notes-text"></span>
+                </div>
+            </div>
 
         </div>
     </div>
 </div>
+
+<script>
+    window.ttyDataDB = {{ procedures | tojson }};
+</script>
+
 {% endblock %}

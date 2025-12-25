@@ -31,7 +31,6 @@ def save_configuration(attacker_ip, interface, target_ip):
             pickle.dump(config_data, f)
             
         print(f"[INFO] Configuración guardada en binario: {CONFIG_PATH}")
-        print(f"[INFO] Datos: {data_string}")
         return True
     
     # hacemos el control de errores pos si algo falla y que muestre el codigo de error concreto

