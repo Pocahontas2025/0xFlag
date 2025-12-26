@@ -1,8 +1,8 @@
 import os
 import pickle
 from flask import Flask, render_template, request, url_for, redirect, jsonify
-from src import logger
-from src.config_manager import save_configuration, load_configuration
+from libraries import logger
+from libraries.config_manager import save_configuration, load_configuration
 from src.libraries.utils import load_tty_data, load_nmap_data # Asumimos que estas existen en utils
 
 app = Flask(__name__)

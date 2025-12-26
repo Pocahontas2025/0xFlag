@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="container px-5 my-5">
+    
     <div class="text-center text-white mb-5">
         <h1 class="fw-bolder">Configuración Global</h1>
         <p class="lead text-white-50">Define tus valores por defecto para agilizar las herramientas.</p>
@@ -14,37 +15,67 @@
             <div class="card bg-secondary text-white border-0 shadow">
                 <div class="card-body p-4">
                     
+                    {% if message %}
+                    <div class="alert alert-success alert-dismissible fade show auto-dismiss mb-4" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endif %}
+
                     <form action="/settings" method="POST">
+                        
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Tu IP (Attacker IP / LHOST):</label>
-                            <input type="text" class="form-control" name="attacker_ip" value="{{ current_conf.attacker_ip if current_conf else '' }}" required>
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-incognito"></i> Tu IP (Attacker IP / LHOST)
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control bg-dark text-white border-0" 
+                                name="attacker_ip" 
+                                value="{{ current_conf.attacker_ip if current_conf else '' }}" 
+                                placeholder="Ej: 10.10.14.5"
+                                required>
+                            <div class="form-text text-white-50">
+                                Se usará para generar Payloads (Reverse Shell) y Listeners.
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">IP Objetivo (Target IP / RHOST):</label>
-                            <input type="text" class="form-control" name="target_ip" placeholder="La IP de la máquina que estás atacando"
-                                   value="{{ current_conf.target_ip if current_conf else '' }}">
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-bullseye"></i> IP Objetivo (Target IP / RHOST)
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control bg-dark text-white border-0" 
+                                name="target_ip" 
+                                placeholder="Ej: 10.10.10.55"
+                                value="{{ current_conf.target_ip if current_conf else '' }}">
+                            <div class="form-text text-white-50">
+                                Se rellenará automáticamente en Nmap y Discovery.
+                            </div>
                         </div>
                         
                         <div class="mb-4">
-                            <label class="form-label fw-bold">Interfaz Preferida:</label>
-                            <select class="form-select" name="interface">
-                                <option value="tun0" {% if current_conf and current_conf.interface == 'tun0' %}selected{% endif %}>tun0 (VPN)</option>
+                            <label class="form-label fw-bold">
+                                <i class="bi bi-hdd-network"></i> Interfaz Preferida
+                            </label>
+                            <select class="form-select bg-dark text-white border-0" name="interface">
+                                <option value="tun0" {% if current_conf and current_conf.interface == 'tun0' %}selected{% endif %}>tun0 (VPN / HTB)</option>
                                 <option value="eth0" {% if current_conf and current_conf.interface == 'eth0' %}selected{% endif %}>eth0 (Ethernet)</option>
                                 <option value="wlan0" {% if current_conf and current_conf.interface == 'wlan0' %}selected{% endif %}>wlan0 (Wi-Fi)</option>
+                                {% if current_conf and current_conf.interface not in ['tun0', 'eth0', 'wlan0'] %}
+                                    <option value="{{ current_conf.interface }}" selected>{{ current_conf.interface }}</option>
+                                {% endif %}
                             </select>
                         </div>
                         
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-success btn-lg">GUARDAR</button>
+                            <button type="submit" class="btn btn-success btn-lg fw-bold">
+                                <i class="bi bi-save"></i> GUARDAR CAMBIOS
+                            </button>
                         </div>
-                    </form>
 
-                    {% if message %}
-                    <div class="alert alert-success mt-3 text-center">
-                        {{ message }}
-                    </div>
-                    {% endif %}
+                    </form>
 
                 </div>
             </div>

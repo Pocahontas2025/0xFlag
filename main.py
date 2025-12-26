@@ -7,7 +7,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 # 2. Importaciones
 from src.app import app
 from src.libraries.utils import get_nics
-from src.config_manager import save_configuration, load_configuration
+from libraries.config_manager import save_configuration, load_configuration
 
 def start_server():
     # Crear carpeta de logs si no existe

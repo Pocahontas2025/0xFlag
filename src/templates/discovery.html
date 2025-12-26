@@ -81,8 +81,7 @@
         
         <div 
         id="disco-output-text" 
-        class="font-monospace text-break mt-2" 
-        style="outline: none; background: transparent; color: #00ff00;">
+        class="terminal-input">
         Esperando datos...
       </div>
     </div>
@@ -90,4 +89,9 @@
     </div>
   </div>
 </div>
+
+<script>
+    window.discoveryToolsDB = {{ tools | tojson }};
+</script>
+
 {% endblock %}

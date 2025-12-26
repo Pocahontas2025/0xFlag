@@ -265,10 +265,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
     // --- LÓGICA DE DISCOVERY ---
     const discoUrl = document.getElementById("disco_url");
-    if (discoUrl) {
+    
+    // Verificamos que existan los elementos y la base de datos de Python
+    if (discoUrl && window.discoveryToolsDB) {
         const discoWordlist = document.getElementById("disco_wordlist");
         const discoExt = document.getElementById("disco_extensions");
         const discoTool = document.getElementById("disco_tool");
@@ -280,50 +282,72 @@ document.addEventListener("DOMContentLoaded", () => {
             let url = discoUrl.value.trim();
             const wordlist = discoWordlist.value.trim() || "/usr/share/wordlists/dirb/common.txt";
             let extensions = discoExt.value.trim();
-            const tool = discoTool.value;
+            const toolKey = discoTool.value; // 'gobuster', 'ffuf', etc.
 
             if (!url) {
                 discoContainer.style.display = "none";
                 return;
             }
 
-            discoContainer.style.display = "block";
-            let command = "";
-
-            switch (tool) {
-                case 'gobuster':
-                    command = `gobuster dir -u ${url} -w ${wordlist}`;
-                    if (extensions) {
-                        const cleanExt = extensions.replace(/\./g, ''); 
-                        command += ` -x ${cleanExt}`;
-                    }
-                    break;
-                case 'ffuf':
-                    if (!url.includes("FUZZ")) {
-                        url = url.endsWith("/") ? `${url}FUZZ` : `${url}/FUZZ`;
-                    }
-                    command = `ffuf -u ${url} -w ${wordlist}`;
-                    if (extensions) {
-                        const extArray = extensions.split(',').map(e => e.trim().startsWith('.') ? e.trim() : `.${e.trim()}`);
-                        command += ` -e ${extArray.join(',')}`;
-                    }
-                    break;
-                case 'dirsearch':
-                    command = `dirsearch -u ${url} -w ${wordlist}`;
-                    if (extensions) {
-                        const cleanExt = extensions.replace(/\./g, '');
-                        command += ` -e ${cleanExt}`;
-                    }
-                    break;
+            // 1. Recuperamos la plantilla base desde Python (DB)
+            // Ejemplo plantilla: "gobuster dir -u {url} -w {wordlist} {extensions}"
+            let rawCommand = window.discoveryToolsDB[toolKey];
+            
+            if (!rawCommand) {
+                console.error("Herramienta no encontrada en DB:", toolKey);
+                return;
             }
-            discoText.innerText = command;
+
+            // 2. Pre-procesamiento de variables específicas por herramienta
+            let extString = "";
+
+            if (toolKey === 'ffuf') {
+                // Lógica específica FFUF: Añadir FUZZ si falta
+                if (!url.includes("FUZZ")) {
+                    url = url.endsWith("/") ? `${url}FUZZ` : `${url}/FUZZ`;
+                }
+                // Extensiones con punto (-e .php,.html)
+                if (extensions) {
+                    const extArray = extensions.split(',').map(e => e.trim().startsWith('.') ? e.trim() : `.${e.trim()}`);
+                    extString = `-e ${extArray.join(',')}`;
+                }
+            } 
+            else if (toolKey === 'gobuster') {
+                // Extensiones sin punto y bandera -x
+                if (extensions) {
+                    const cleanExt = extensions.replace(/\./g, ''); 
+                    extString = `-x ${cleanExt}`;
+                }
+            }
+            else if (toolKey === 'dirsearch') {
+                // Extensiones sin punto y bandera -e
+                if (extensions) {
+                    const cleanExt = extensions.replace(/\./g, '');
+                    extString = `-e ${cleanExt}`;
+                }
+            }
+
+            // 3. Relleno de la plantilla (Interpolación)
+            let finalCommand = rawCommand
+                .replace('{url}', url)
+                .replace('{wordlist}', wordlist)
+                .replace('{extensions}', extString);
+
+            // Limpieza final (por si {extensions} quedó vacío, quitar espacios dobles)
+            finalCommand = finalCommand.replace(/\s+/g, ' ').trim();
+
+            // 4. Mostrar resultado
+            discoContainer.style.display = "block";
+            discoText.innerText = finalCommand;
         }
 
+        // Listeners
         [discoUrl, discoWordlist, discoExt, discoTool].forEach(el => {
             el.addEventListener("input", updateDiscoveryCommand);
             el.addEventListener("change", updateDiscoveryCommand);
         });
 
+        // Ejecutar una vez al inicio
         updateDiscoveryCommand();
     }
 
