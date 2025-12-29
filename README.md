@@ -50,7 +50,7 @@ git clone https://github.com/Pocahontas2025/0xFlag
 cd 0XFlag
 ```
 
-### 2 Instalar dependencias
+### 2. Instalar dependencias
 
 El proyecto utiliza librerías externas para la gestión web. Instálalas con:
 
@@ -58,7 +58,7 @@ El proyecto utiliza librerías externas para la gestión web. Instálalas con:
 pip install -r requirements.txt
 ```
 
-### 3 Ejecutar la aplicación
+### 3. Ejecutar la aplicación
 
 Lanza el servidor local ejecutando el punto de entrada principal:
 
@@ -66,7 +66,7 @@ Lanza el servidor local ejecutando el punto de entrada principal:
 python main.py
 ```
 
-### 4 Acceder a la herramienta
+### 4. Acceder a la herramienta
 
 Abre tu navegador web favorito y visita:
 
