@@ -1,7 +1,12 @@
 # 🚩 0xFlag - CTF Command Generator
 
-**Versión:** Alpha v0.1
+![Version](https://img.shields.io/badge/version-v1.0-brightgreen?style=flat-square)
+![Python](https://img.shields.io/badge/python-3.8+-blue?style=flat-square&logo=python&logoColor=white)
+![License](https://img.shields.io/badge/license-University-orange?style=flat-square)
+
+
 **Asignatura:** Introducció a la Programació / Tecnologies de la Productivitat
+
 **Grupo:** 9
 
 ---
@@ -21,13 +26,21 @@ En competiciones o auditorías, recordar la sintaxis exacta de cada herramienta 
 
 ---
 
-## 🚀 Funcionalidades (Versión Alpha)
+## 🚀 Funcionalidades
 
-Esta entrega parcial (**Alpha**) implementa la arquitectura base del sistema y el primer módulo funcional:
+Esta herramienta agiliza el proceso en CTFs dividiendo las herramientas en las fases clásicas de una intrusión:
+### 🔍 Reconocimiento
 
-1.  **Generador de Nmap:** Interfaz para crear escaneos de red (Rápido, Completo TCP y UDP) sin tocar la terminal.
-2.  **Sistema de Logs:** Registro automático de todos los comandos generados en ficheros de texto para auditoría (`logs/history.txt`).
-3.  **Arquitectura Modular:** Separación lógica entre interfaz web (Flask) y lógica de negocio (Python).
+- **Generador Nmap**: Crea comandos rápidos para escaneos TCP/UDP, detección de versiones y scripts de vulnerabilidades.
+- **Discovery**: Generación de comandos para fuzzing web y descubrimiento de directorios (Gobuster, FFUF, Dirsearch).
+
+### 💥 Explotación
+
+- **Reverse Shell**: Generación reactiva e instantánea de Payloads (Bash, PHP, Python, Netcat) y Listeners listos para copiar.
+
+### 🪜 Escalada / Post-Explotación
+
+- **TTY**: Guía paso a paso interactiva para estabilizar una shell básica y convertirla en una terminal completamente funcional.
 
 ---
 
@@ -47,7 +60,7 @@ Sigue estos pasos para desplegar la herramienta en tu entorno local:
 ### 1. Clonar el repositorio
 ```bash
 git clone https://github.com/Pocahontas2025/0xFlag
-cd 0XFlag
+cd 0xFlag
 ```
 
 ### 2. Instalar dependencias
@@ -57,6 +70,9 @@ El proyecto utiliza librerías externas para la gestión web. Instálalas con:
 ```bash
 pip install -r requirements.txt
 ```
+
+> [!NOTE]
+> Librerias que contiene requirements.txt: flask y psutil
 
 ### 3. Ejecutar la aplicación
 
@@ -68,72 +84,102 @@ python main.py
 
 ### 4. Acceder a la herramienta
 
-Abre tu navegador web favorito y visita:
+Al ejecutar main.py, la terminal te mostrará las interfaces de red detectadas.
+
+- Selecciona la interfaz de tu VPN (ej. tun0) para que sea accesible en la red del CTF.
+- Selecciona localhost (127.0.0.1) si quieres mantener la herramienta privada.
+
+Una vez iniciada, abre tu navegador y visita la dirección mostrada (por defecto):
 
 ```
 http://127.0.0.1:5000
 ```
 
+### 5. Vistazo general
+Cuando abras la web, encontraras la página de inicio y acceso directo a las herramientas más usadas.
+También dispones de una cabecera con desplegables que representan 3 de las grandes fases de un CTF.
+Además cuentas con un historial de aquellos comandos que copies, puedas consultarlos en un futuro y una sección de configuración.
+
+### 6. Configuración en la web
+0xFlag te permite guardar  Tu IP, la del Objetivo y tu Interfaz Preferida para que siempre que uses la herramienta, sea lo más rápida y personal posible. 
+
 ---
 
 ## ⚙️ Personalización y Añadido de Comandos
 
-**0xFlag** está diseñado para ser extensible. Los comandos de **Nmap** y los procedimientos de **TTY** no están "duros" en el código de la aplicación, sino que se generan a partir de una base de datos local.
+**0xFlag** es extensible por diseño. Los comandos no están escritos en la aplicación, sino que se generan dinámicamente.
 
-Si deseas añadir tus propios escaneos personalizados o nuevos trucos de estabilización de shell, sigue estos pasos:
+¿Quieres añadir tu escaneo favorito o una nueva técnica de TTY?
 
-1. **Edita el archivo `generate_bins.py**`:
-En la raíz del proyecto, abre este archivo. Verás dos diccionarios principales:
-* `tty_procedures`: Contiene los métodos para mejorar la shell.
-* `nmap_scans`: Contiene los "one-liners" de Nmap.
-
+1. **Edita el archivo `generate_bins.py`**:
+Abre el archivo en la raíz del proyecto. Verás los diccionarios de configuración (`tty_procedures`,`nmap_scans`, `discovery_tools`...).
 2. **Añade tu entrada**:
-Sigue el formato existente (clave: valor).
-* *Para Nmap:* Asegúrate de incluir el marcador `{ip}` donde quieras que se inserte la dirección IP objetivo.
-* *Ejemplo:*
+Inserta tu comando siguiendo el formato `clave: valor`. Usa los marcadores `{ip}` o `{url}` donde corresponda.
+
+Ejemplo para añadir un escaneo personalizado:
+
 ```python
-"mi_scan": "nmap -p 80,443,8080 -sV {ip} -oN web_scan.txt"
+"mi_scan_sigiloso": "nmap -sS -T2 -p- {ip} -oN scan_lento.txt"
 ```
 
 3. **Regenera los binarios**:
-Una vez guardado el archivo `.py`, ejecuta el script para actualizar la base de datos interna (`data/*.bin`):
+Ejecuta el script para compilar tus cambios en los archivos `.bin` de la carpeta `data/`:
+
 ```bash
 python generate_bins.py
-
 ```
 
 4. **Reinicia la aplicación**:
 Si tenías `main.py` corriendo, ciérralo y vuélvelo a abrir para que cargue los nuevos cambios.
 
-> **⚠️ Nota Importante:** Modifica `generate_bins.py` con cuidado. Asegúrate de respetar la sintaxis de diccionarios de Python (comillas, comas, llaves). Un error de sintaxis en este archivo impedirá la generación correcta de los binarios.
+> [!WARNING]
+> **Sintaxis Python**: Asegúrate de poner las comas , al final de cada línea del diccionario y cerrar correctamente las comillas. Un error aquí impedirá que se generen los archivos.
 
 ---
 
 ## 📂 Estructura del Proyecto
 
-¡¡HAY QUE ACTUALIZARLO!!
 El código sigue una arquitectura modular para facilitar la escalabilidad:
 
 ```text
-PROYECTO-0XFLAG/
-├── data/               # Almacenamiento de datos (placeholder)
-├── logs/               # Registros de actividad (ficheros de texto)
-│   └── history.txt     # Historial de comandos generados
-├── src/                # Código fuente modular
-│   ├── ctf_logic.py    # Lógica de generación de comandos
-│   ├── logger.py       # Módulo de gestión de ficheros
-│   ├── templates/      # Interfaz Web (HTML)
-|   │   ├── index.html  # Landing Page de inicio
-|   │   └── alpha.html  # Web provisional de la Alpha v0.1
-|   └── static/         # Estilos e imágenes
-│       ├── css/
-│       │   └── styles.css
-│       └── assets/
-│           ├── favicon.ico
-│           └── 0xFlag_Logo.png
-├── main.py             # Punto de entrada (Servidor Flask)
-├── requirements.txt    # Dependencias del proyecto
-└── README.md           # Documentación
+0xFlag/
+├── data/
+│   ├── discovery_tools.bin
+│   ├── nmap_scans.bin
+│   ├── tty_procedures.bin
+│   └── user_config.bin
+├── logs/
+│   └── history.txt
+├── src/
+│   ├── libraries/
+│   │   ├── config_manager.py
+│   │   ├── logger.py
+│   │   ├── utils.py
+│   │   └── __init__.py
+│   ├── static/
+│   │   ├── assets/
+│   │   │   ├── 0xFlag_Logo.png
+│   │   │   ├── 0xFlag_NoBkg.png
+│   │   │   └── favicon.ico
+│   │   ├── css/
+│   │   │   └── styles.css
+│   │   ├── js/
+│   │   │   └── scripts.js
+│   │   └── paletacolores.txt
+│   ├── templates/
+│   │   ├── base.html
+│   │   ├── discovery.html
+│   │   ├── history.html
+│   │   ├── index.html
+│   │   ├── nmap.html
+│   │   ├── reverse.html
+│   │   ├── settings.html
+│   │   └── tty.html
+│   └── app.py
+├── generate_bins.py
+├── main.py
+├── README.md
+└── requirements.txt
 ```
 
 ---
@@ -158,11 +204,16 @@ sudo rm data/user_config.bin
 
 ### ❌ Error: ModuleNotFoundError: No module named 'flask'
 
-Asegúrate de haber activado tu entorno virtual antes de iniciar la herramienta:
+El entorno no encuentra las librerías necesarias. Asegúrate de haberlas instalado correctamente:
+1. Si usas un entorno virtual (recomendado), actívalo primero:
 
 ```bash
-source venv/bin/activate  # En Linux/Mac
+source venv/bin/activate  # Linux/Mac
 # o
-pip install -r requirements.txt
+.\venv\Scripts\activate   # Windows
+```
 
+2. Instala las dependencias:
+```bash
+pip install -r requirements.txt
 ```
