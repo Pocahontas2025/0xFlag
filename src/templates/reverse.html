@@ -119,54 +119,56 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const lhost = document.getElementById("lhost");
-  const lport = document.getElementById("lport");
-  const output = document.getElementById("output");
-  const listener = document.getElementById("listener");
-  const urlencode = document.getElementById("urlencode");
-  const shells = document.querySelectorAll('input[name="shell_type"]');
+  var outputEl = document.getElementById("output");
+  var cb = document.getElementById("urlencode");
+  var lhost = document.getElementById("lhost");
+  var lport = document.getElementById("lport");
 
-  if (!lhost || !lport || !output || !urlencode) return;
+  if (!outputEl || !cb) return;
 
-  function generate() {
-    if (!lhost.value || !lport.value) {
-      output.textContent = "Esperando datos...";
-      return;
-    }
+  var applying = false;
 
-    const shell = document.querySelector('input[name="shell_type"]:checked')?.value;
+  function postProcess() {
+    setTimeout(function () {
+      if (applying) return;
+      applying = true;
 
-    let payload = "";
+      var current = outputEl.textContent || "";
 
+      if (!cb.checked) {
+        outputEl.dataset.raw = current;
+      }
 
-    switch (shell) {
-      case "bash":
-        payload = `COMMAND bash connect ${lhost.value} ${lport.value}`;
-        break;
-      case "php":
-        payload = `COMMAND php connect ${lhost.value} ${lport.value}`;
-        break;
-      case "nc":
-        payload = `COMMAND nc connect ${lhost.value} ${lport.value}`;
-        break;
-      default:
-        payload = "Esperando selección...";
-    }
+      var raw = outputEl.dataset.raw != null ? outputEl.dataset.raw : current;
 
-    output.textContent = urlencode.checked
-      ? encodeURIComponent(payload)
-      : payload;
+      outputEl.textContent = cb.checked ? encodeURIComponent(raw) : raw;
 
-    listener.textContent = `listener ${lport.value}`;
+      applying = false;
+    }, 0);
   }
 
-  lhost.addEventListener("input", generate);
-  lport.addEventListener("input", generate);
-  urlencode.addEventListener("change", generate);
-  shells.forEach(r => r.addEventListener("change", generate));
 
-  // Inicial
-  generate();
+  cb.addEventListener("change", postProcess);
+
+
+  if (lhost) lhost.addEventListener("input", postProcess);
+  if (lport) lport.addEventListener("input", postProcess);
+
+
+  document.querySelectorAll('input[name="shell_type"]').forEach(function (el) {
+    el.addEventListener("change", postProcess);
+  });
+
+
+  var obs = new MutationObserver(function () {
+    if (applying) return;
+    if (!cb.checked) outputEl.dataset.raw = outputEl.textContent || "";
+    postProcess();
+  });
+  obs.observe(outputEl, { childList: true, characterData: true, subtree: true });
+
+  outputEl.dataset.raw = outputEl.textContent || "";
+  postProcess();
 });
 </script>
 
