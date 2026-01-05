@@ -3,7 +3,7 @@ import pickle
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 from libraries import logger
 from libraries.config_manager import save_configuration, load_configuration
-from src.libraries.utils import load_tty_data, load_nmap_data # Asumimos que estas existen en utils
+from src.libraries.utils import load_tty_data, load_nmap_data
 
 app = Flask(__name__)
 
@@ -117,3 +117,11 @@ def history():
 def clear_history_route():
     logger.clear_logs()
     return redirect(url_for('history'))
+
+# --- Herramienta PEASS (Privilege Escalation) ---
+@app.route('/peass')
+def peass_helper():
+    # Cargamos la configuración actual (para que el menú y el footer funcionen igual)
+    current_conf = load_configuration()
+    # Renderizamos la nueva plantilla
+    return render_template('peass.html', config=current_conf)

