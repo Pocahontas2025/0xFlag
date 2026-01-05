@@ -117,7 +117,89 @@
             </div>
         </div>
 
+        <div class="col-lg-6">
+            <h3 class="fw-bold mb-4 text-center text-white">WinPEAS</h3>
 
+            <div class="accordion accordion-flush" id="accordionWinpeas">
+                
+                <div class="accordion-item mb-3" style="background: transparent; border: none;">
+                    <h2 class="accordion-header" id="headingWin1">
+                        <button class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWin1" 
+                                style="background-color: #0b132b; color: white; box-shadow: none; border-bottom: 1px solid #ffffff1a;">
+                            <i class="fab fa-windows me-2"></i> Información General
+                        </button>
+                    </h2>
+                    <div id="collapseWin1" class="accordion-collapse collapse" data-bs-parent="#accordionWinpeas" 
+                         style="background-color: #475569; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        <div class="accordion-body p-4 text-white">
+                            <p class="mb-0">
+                                WinPEAS buscará rutas mal configuradas, credenciales guardadas y vulnerabilidades de kernel en entornos Windows.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-3" style="background: transparent; border: none;">
+                    <h2 class="accordion-header" id="headingWin2">
+                        <button class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWin2" 
+                                style="background-color: #0b132b; color: white; box-shadow: none; border-bottom: 1px solid #ffffff1a;">
+                            <i class="fas fa-bolt me-2"></i> Quick Start
+                        </button>
+                    </h2>
+                    <div id="collapseWin2" class="accordion-collapse collapse" data-bs-parent="#accordionWinpeas" 
+                         style="background-color: #475569; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        <div class="accordion-body p-4">
+                            <label class="text-white fw-bold small">Nombre del ejecutable:</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control border-0 font-monospace" id="winpeas_cmd"
+                                       value="winPEASx64.exe" readonly 
+                                       style="background-color: #0f172a; color: white;">
+                                <button class="btn border-0 btn-copy" type="button" data-target="winpeas_cmd" style="background-color: #1e293b; color: white;">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                            <p class="small text-white fst-italic mb-0" style="opacity: 0.8;">
+                                <i class="fas fa-exclamation-triangle text-warning"></i> Recuerda evadir Defender (AMSI).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-3" style="background: transparent; border: none;">
+                    <h2 class="accordion-header" id="headingWin3">
+                        <button class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWin3" 
+                                style="background-color: #0b132b; color: white; box-shadow: none; border-bottom: 1px solid #ffffff1a;">
+                            <i class="fas fa-terminal me-2"></i> Comandos Útiles
+                        </button>
+                    </h2>
+                    <div id="collapseWin3" class="accordion-collapse collapse" data-bs-parent="#accordionWinpeas" 
+                         style="background-color: #475569; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        <div class="accordion-body p-4">
+                            <label class="text-white fw-bold small">Ejecución básica:</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control border-0 font-monospace" id="win_basic"
+                                       value=".\winPEASx64.exe" readonly 
+                                       style="background-color: #0f172a; color: white;">
+                                <button class="btn border-0 btn-copy" type="button" data-target="win_basic" style="background-color: #1e293b; color: white;">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                            
+                            <label class="text-white fw-bold small">Guardar salida:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control border-0 font-monospace" id="win_log"
+                                       value=".\winPEASx64.exe > out.txt" readonly 
+                                       style="background-color: #0f172a; color: white;">
+                                <button class="btn border-0 btn-copy" type="button" data-target="win_log" style="background-color: #1e293b; color: white;">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 </div>
