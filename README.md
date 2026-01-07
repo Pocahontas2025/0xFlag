@@ -101,7 +101,7 @@ También dispones de una cabecera con desplegables que representan 3 de las gran
 Además cuentas con un historial de aquellos comandos que copies, puedas consultarlos en un futuro y una sección de configuración.
 
 ### 6. Configuración en la web
-0xFlag te permite guardar  Tu IP, la del Objetivo y tu Interfaz Preferida para que siempre que uses la herramienta, sea lo más rápida y personal posible. 
+0xFlag te permite guardar la IP de tu máquina, la del objetivo y tu interfaz preferida para que siempre que uses la herramienta, sea lo más rápida y personal posible. 
 
 ---
 
