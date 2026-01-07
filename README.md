@@ -96,12 +96,12 @@ http://127.0.0.1:5000
 ```
 
 ### 5. Vistazo general
-Cuando abras la web, encontraras la página de inicio y acceso directo a las herramientas más usadas.
+Cuando abras la web, encontrarás la página de inicio y acceso directo a las herramientas más usadas.
 También dispones de una cabecera con desplegables que representan 3 de las grandes fases de un CTF.
 Además cuentas con un historial de aquellos comandos que copies, puedas consultarlos en un futuro y una sección de configuración.
 
 ### 6. Configuración en la web
-0xFlag te permite guardar  Tu IP, la del Objetivo y tu Interfaz Preferida para que siempre que uses la herramienta, sea lo más rápida y personal posible. 
+0xFlag te permite guardar tu dirección **IP**, la del **objetivo** y tu **interfaz preferida** para que siempre que uses la herramienta, sea lo más rápida y personal posible. 
 
 ---
 
@@ -133,7 +133,7 @@ python generate_bins.py
 Si tenías `main.py` corriendo, ciérralo y vuélvelo a abrir para que cargue los nuevos cambios.
 
 > [!WARNING]
-> **Sintaxis Python**: Asegúrate de poner las comas , al final de cada línea del diccionario y cerrar correctamente las comillas. Un error aquí impedirá que se generen los archivos.
+> **Sintaxis Python**: Asegúrate de poner las comas, al final de cada línea del diccionario y cerrar correctamente las comillas. Un error aquí impedirá que se generen los archivos.
 
 ---
 
